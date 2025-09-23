@@ -1,0 +1,11 @@
+import 'exceptions.dart';
+import 'failures.dart';
+
+Failure mapExceptionToFailure(Exception e) {
+  if (e is ServerException) return ServerFailure(e.message);
+  if (e is CacheException) return CacheFailure(e.message);
+  if (e is NetworkException) return NetworkFailure(e.message);
+  if (e is UnexpectedException) return UnexpectedFailure(e.message);
+
+  return UnexpectedFailure("Unknown error");
+}

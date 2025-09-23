@@ -1,0 +1,41 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gym_log/feature/auth/domain/repositories/auth_repository.dart';
+import 'auth_event.dart';
+import 'auth_state.dart';
+
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  final AuthRepository authRepository;
+
+  AuthBloc(this.authRepository) : super(AuthInitial()) {
+    on<AuthLoginRequested>(_onLoginRequested);
+    on<AuthLogoutRequested>(_onLogoutRequested);
+    on<AuthCheckStatus>(_onCheckStatus);
+  }
+
+  Future<void> _onLoginRequested(
+      AuthLoginRequested event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      final user = await authRepository.login(event.email, event.password);
+      emit(AuthSuccess(user));
+    } catch (e) {
+      emit(AuthFailure("Login failed: ${e.toString()}"));
+    }
+  }
+
+  Future<void> _onLogoutRequested(
+      AuthLogoutRequested event, Emitter<AuthState> emit) async {
+    await authRepository.logout();
+    emit(AuthUnauthenticated());
+  }
+
+  Future<void> _onCheckStatus(
+      AuthCheckStatus event, Emitter<AuthState> emit) async {
+    final user = await authRepository.getCurrentUser();
+    if (user != null) {
+      emit(AuthSuccess(user));
+    } else {
+      emit(AuthUnauthenticated());
+    }
+  }
+}
