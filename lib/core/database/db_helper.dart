@@ -177,6 +177,7 @@ class DBHelper{
         rd.rd_rh_id AS workout_routine_id,
         rd.rd_exercise_id AS exercise_id,
         em.exercise_name AS exercise_name,
+        em.exercise_etm_id AS exercise_type_id,
         rd.rd_notes AS exercise_note,
         rd.rd_rest_timer AS exercise_rest_time,
 

@@ -4,7 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:liftup/feature/workout/domain/entities/routine_exercise_entity.dart';
 import 'package:liftup/feature/workout/presentation/widgets/exercise_ui_config.dart';
 
-class ExerciseCard extends StatelessWidget {
+class ExerciseCard extends StatefulWidget {
 
   final RoutineExerciseEntity exercise;
   final bool isEditable;
@@ -26,9 +26,22 @@ class ExerciseCard extends StatelessWidget {
   });
 
   @override
+  State<ExerciseCard> createState() => _ExerciseCard();
+
+}
+
+class _ExerciseCard extends State<ExerciseCard> {
+  late ExerciseUIConfig uiConfig;
+
+  @override
+  void initState() {
+    super.initState();
+    uiConfig = getExerciseUIConfig(widget.exercise.exerciseType);
+  }
+ 
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final uiConfig = getExerciseUIConfig(exercise.exerciseType);
     
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0,),
@@ -39,14 +52,14 @@ class ExerciseCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 26,
-                backgroundImage: NetworkImage(exercise.exerciseImageUrl ?? ''),
+                backgroundImage: NetworkImage(widget.exercise.exerciseImageUrl ?? ''),
                 backgroundColor: Colors.white,
                 onBackgroundImageError: (_, __) {},
               ),
               SizedBox(width: 10.w),
               Expanded(
                 child: Text(
-                  exercise.exerciseName ?? '',
+                  widget.exercise.exerciseName ?? '',
                   style: TextStyle(
                     color: Colors.blue,
                     fontSize: 18.sp,
@@ -54,7 +67,7 @@ class ExerciseCard extends StatelessWidget {
                   ),
                 ),
               ),
-              if (isEditable)
+              if (widget.isEditable)
               IconButton(
                 icon: const Icon(Icons.more_vert, color: Colors.white),
                 onPressed: () {
@@ -106,7 +119,7 @@ class ExerciseCard extends StatelessWidget {
                   flex: 1,
                   child: Text("SET", style: theme.textTheme.labelLarge),
                 ),
-                if(workoutSession)
+                if(widget.workoutSession)
                 Expanded(
                   flex: 2,
                   child: Text("PREVIOUS", style: theme.textTheme.labelLarge),
@@ -131,7 +144,7 @@ class ExerciseCard extends StatelessWidget {
                   flex: 1,
                   child: Text("REPS", style: theme.textTheme.labelLarge),
                 ),
-                if (workoutSession)
+                if (widget.workoutSession)
                   Expanded(
                     flex: 1,
                     child: Icon(Icons.check, color: Colors.grey, size: 18),
@@ -144,9 +157,9 @@ class ExerciseCard extends StatelessWidget {
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: exercise.setValueList.length,
+            itemCount: widget.exercise.setValueList.length,
             itemBuilder: (context, setIndex) {
-              final set = exercise.setValueList[setIndex];
+              final set = widget.exercise.setValueList[setIndex];
               final isEven = setIndex  % 2 == 0;
               final isCompleted = set.isCompleted == true;
 
@@ -183,9 +196,9 @@ class ExerciseCard extends StatelessWidget {
                   motion: const ScrollMotion(),
                   extentRatio: 0.26,
                   children: [
-                    if(isEditable)
+                    if(widget.isEditable)
                     SlidableAction(
-                      onPressed: (_) => onDeleteSet?.call(setIndex),
+                      onPressed: (_) => widget.onDeleteSet?.call(setIndex),
                       backgroundColor: Colors.red,
                       foregroundColor: Colors.white,
                       //icon: Icons.delete,
@@ -205,13 +218,15 @@ class ExerciseCard extends StatelessWidget {
                           initialValue: set.setCount.toString(),
                           readOnly: true,
                           decoration: const InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
                             border: InputBorder.none,
                           ),
                           style: theme.textTheme.bodySmall,
                         ),
                       ),
 
-                      if(workoutSession)
+                      if(widget.workoutSession)
                       Expanded(
                         flex: 2,
                         child: TextFormField(
@@ -219,6 +234,8 @@ class ExerciseCard extends StatelessWidget {
                           initialValue: set.setCount.toString(),
                           readOnly: true,
                           decoration: const InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
                             border: InputBorder.none,
                           ),
                           style: theme.textTheme.bodySmall,
@@ -231,6 +248,8 @@ class ExerciseCard extends StatelessWidget {
                         child: TextFormField(
                           initialValue: weight.toString(),
                           decoration: const InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
                             border: InputBorder.none,
                           ),
                           style: theme.textTheme.bodySmall,
@@ -247,6 +266,8 @@ class ExerciseCard extends StatelessWidget {
                         child: TextFormField(
                           initialValue: duration.toString(),
                           decoration: const InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
                             border: InputBorder.none,
                           ),
                           style: theme.textTheme.bodySmall,
@@ -263,6 +284,8 @@ class ExerciseCard extends StatelessWidget {
                         child: TextFormField(
                           initialValue: distance.toString(),
                           decoration: const InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
                             border: InputBorder.none,
                           ),
                           style: theme.textTheme.bodySmall,
@@ -279,6 +302,8 @@ class ExerciseCard extends StatelessWidget {
                         child: TextFormField(
                           initialValue: reps.toString(),
                           decoration: InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
                             border: InputBorder.none,
                           ),
                           style: theme.textTheme.bodySmall,
@@ -290,7 +315,7 @@ class ExerciseCard extends StatelessWidget {
                       ),
 
                       //Complete Icon
-                      if (workoutSession)
+                      if (widget.workoutSession)
                       Expanded(
                         flex: 1,
                         child: IconButton(
@@ -298,7 +323,7 @@ class ExerciseCard extends StatelessWidget {
                             set.isCompleted ? Icons.check_box : Icons.check_box_outline_blank,
                             color: set.isCompleted ? Colors.green : Colors.grey,
                           ),
-                          onPressed: () => onSetComplete?.call(setIndex),
+                          onPressed: () => widget.onSetComplete?.call(setIndex),
                         ),
                       ),
                       
@@ -312,11 +337,11 @@ class ExerciseCard extends StatelessWidget {
           SizedBox(height: 10.h),
 
           // ---- Add Set Button ----
-          if (isEditable)
+          if (widget.isEditable)
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
-              onPressed: onAddSet,
+              onPressed: widget.onAddSet,
               icon: const Icon(Icons.add, color: Colors.white),
               label: const Text("Add Set"),
               style: ElevatedButton.styleFrom(
