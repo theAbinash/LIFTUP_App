@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class CustomTextformfield extends StatelessWidget {
+class CustomTextformfield extends StatefulWidget  {
 
   final TextEditingController controller;
   final TextInputType? keyboardType;
@@ -29,16 +28,21 @@ class CustomTextformfield extends StatelessWidget {
   });
 
   @override
+  State<CustomTextformfield> createState() => _CustomTextformfieldState();
+}
+
+class _CustomTextformfieldState extends State<CustomTextformfield> {
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
+      controller: widget.controller,
+      keyboardType: widget.keyboardType,
       style: theme.textTheme.bodyLarge,
-      obscureText: isObscureText!,
-      validator: validation,
-      onChanged: onChanged,
+      obscureText: widget.isObscureText!,
+      validator: widget.validation,
+      onChanged: widget.onChanged,
       decoration: InputDecoration(
         border: UnderlineInputBorder(),
         enabledBorder: UnderlineInputBorder(
@@ -47,7 +51,7 @@ class CustomTextformfield extends StatelessWidget {
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.blue, width: 2), // when focused
         ),
-        hintText: hintText,
+        hintText: widget.hintText,
         hintStyle: TextStyle(
           color: Colors.grey,
           fontSize: 15,
@@ -55,5 +59,4 @@ class CustomTextformfield extends StatelessWidget {
       )
     );
   }
-  
 }

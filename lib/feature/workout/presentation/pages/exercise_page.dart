@@ -40,8 +40,8 @@ class _ExercisePage extends State<ExercisePage> {
   }
 
   void _showFiltersheet({required int type}){
-    List<String> items = type == 1 ? allEquipments : allMuscles;
-    List<String> selectedList = type == 1 ? selectedEquipments : selectedMuscles;
+    //List<String> items = type == 1 ? allEquipments : allMuscles;
+    //List<String> selectedList = type == 1 ? selectedEquipments : selectedMuscles;
 
      showModalBottomSheet(
       context: context, 
@@ -87,7 +87,6 @@ class _ExercisePage extends State<ExercisePage> {
   void _finishSelection(Set<int> selectedIds, List<ExerciseEntity> exercise) {
     final selectedNames = exercise
         .where((ex) => selectedIds.contains(ex.exerciseId))
-        //.map((ex) => ex.toMap())
         .toList();
 
     Navigator.pop(context, selectedNames);

@@ -9,5 +9,8 @@ class Constants {
   static const int exerciseScopePublic = 1;
   static const int exerciseScopePrivate = 2;
 
-  
+  static const bool restDB = false;
+
+  static const int mediaTypePhoto = 1;
+  static const int mediaTypeVideo = 2;
 }

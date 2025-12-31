@@ -5,7 +5,7 @@ class ExerciseEntity {
   final String exerciseImageUrl;
   final List<String> exerciseEquipments;
   final List<String> exerciseBodyParts;
-  final int? exerciseMeasurementFlag; 
+  final int? exerciseMeasurementFlag;
 
   const ExerciseEntity({
     required this.exerciseId,

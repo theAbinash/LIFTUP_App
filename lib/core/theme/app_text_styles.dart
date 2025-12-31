@@ -48,6 +48,16 @@ class AppTextStyles {
     fontWeight: FontWeight.normal,
     color: AppColors.darkTextPrimary,
   );
+  static const TextStyle lightBodySmall = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.bold,
+    color: AppColors.lightTextPrimary,
+  );
+  static const TextStyle darkBodySmall = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.bold,
+    color: AppColors.darkTextPrimary,
+  );
 
   // Labels
    static const TextStyle lightLabel = TextStyle(

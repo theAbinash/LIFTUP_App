@@ -6,6 +6,11 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     scaffoldBackgroundColor: AppColors.lightBackground,
+    dividerTheme: DividerThemeData(
+      color: AppColors.lightDivider.withOpacity(0.4),
+      thickness: 1,
+      space: 16,
+    ),
     primarySwatch: Colors.blue,
     appBarTheme: const AppBarTheme(
       centerTitle: true,
@@ -26,9 +31,9 @@ class AppTheme {
       titleMedium: AppTextStyles.lightTitle,
       bodyLarge: AppTextStyles.lightBody,
       bodyMedium: AppTextStyles.lightBody,
+      bodySmall: AppTextStyles.lightBodySmall,
       labelLarge: AppTextStyles.lightLabel,
-      //labelSmall: AppTextStyles.lightLabel,
-      bodySmall: AppTextStyles.lightGrey,
+      labelSmall: AppTextStyles.lightGrey,
     ),
     colorScheme: const ColorScheme.light(
       primary: AppColors.primary,
@@ -41,6 +46,11 @@ class AppTheme {
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.darkBackground,
+    dividerTheme: DividerThemeData(
+      color: AppColors.darkDivider.withOpacity(0.4),
+      thickness: 1,
+      space: 16,
+    ),
     primarySwatch: Colors.blue,
     appBarTheme: const AppBarTheme(
       centerTitle: true,
@@ -61,9 +71,9 @@ class AppTheme {
       titleMedium: AppTextStyles.darkTitle,
       bodyLarge: AppTextStyles.darkBody,
       bodyMedium: AppTextStyles.darkBody,
+      bodySmall: AppTextStyles.darkBodySmall,
       labelLarge: AppTextStyles.darkLabel,
-      //labelSmall: AppTextStyles.darkLabel,
-      bodySmall: AppTextStyles.darkGrey,
+      labelSmall: AppTextStyles.darkGrey,
     ),
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primary,

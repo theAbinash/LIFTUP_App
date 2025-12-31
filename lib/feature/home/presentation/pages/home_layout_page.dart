@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:liftup/feature/home/presentation/widgets/home_widget.dart' show HomeWidget;
 import 'package:liftup/feature/profile/presentation/pages/profile_page.dart';
 import 'package:liftup/feature/workout/presentation/pages/workout_page.dart' show WorkoutWidget;
+import 'package:liftup/core/debug/dev_tools_page.dart';
 
 class HomeLayoutPage extends StatefulWidget {
   const HomeLayoutPage({super.key});
@@ -32,6 +34,21 @@ class _HomeLayoutPage extends State<HomeLayoutPage> {
     
     return Scaffold(
       body: _pages[_currentIndex],
+      // debug button
+      floatingActionButton: kDebugMode
+        ? FloatingActionButton(
+            heroTag: 'debugBtn',
+            backgroundColor: Colors.amber,
+            child: const Icon(Icons.bug_report),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const DevToolsPage()),
+              );
+            },
+          )
+        : null,
+
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           splashColor: Colors.transparent,

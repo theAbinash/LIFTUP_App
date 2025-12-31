@@ -90,6 +90,7 @@ class _RegistrationPage extends State<SignupPage>{
                   SizedBox(height: 5.h),
                   CustomTextformfield(
                     controller: _passwordController,
+                    isObscureText: true,
                     hintText: "minimum 6 characters",
                     onChanged: (value) {
                       setState(() => password = value);

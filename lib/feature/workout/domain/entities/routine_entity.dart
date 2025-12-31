@@ -1,36 +1,31 @@
-import 'dart:ffi';
+import 'package:liftup/feature/workout/domain/entities/routine_exercise_entity.dart';
 
 class RoutineEntity {
   final int routineId;
-  final String? routineName;
+  final String routineName;
   final int? routineCreatedPersonId;
+  final String? createdPersonName;
   final int? routineScope;
-  final DateTime routineCreatedDate;
-  final int? routineDetailId;
-  final int? routineExerciseId;
-  final int? exerciseRestTimer;
-  final int? setId;
-  final int? setCountValue;
-  final Double? setWeightValue;
-  final int? setRepsCountValue;
-  final int? setDistanceValue;
-  final int? setDurationValue;
+  final DateTime? routineCreatedDate;
+  final List<RoutineExerciseEntity>? workoutList;
 
   const RoutineEntity({
     required this.routineId,
-    this.routineName,
+    required this.routineName,
     this.routineCreatedPersonId,
+    this.createdPersonName,
     this.routineScope,
-    required this.routineCreatedDate,
-    this.routineDetailId,
-    this.routineExerciseId,
-    this.exerciseRestTimer,
-    this.setId,
-    this.setCountValue,
-    this.setWeightValue,
-    this.setRepsCountValue,
-    this.setDistanceValue,
-    this.setDurationValue
+    this.routineCreatedDate,
+    this.workoutList,
   });
+
+  int get estimatedDuration {
+    int totalSets = 0;
+    for (var exercise in workoutList!) {
+      totalSets += exercise.setValueList.length;
+    }
+    return totalSets; 
+  }
+
 
 }

@@ -4,17 +4,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:liftup/core/errors/error_cubit.dart';
 import 'package:liftup/core/session/session_manager.dart';
 import 'package:liftup/core/theme/app_theme.dart';
+import 'package:liftup/core/utils/constants.dart';
 import 'package:liftup/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:liftup/feature/home/presentation/pages/home_layout_page.dart';
 import 'package:liftup/feature/auth/presentation/pages/landing_page.dart';
 import 'package:liftup/feature/workout/presentation/bloc/exercise_bloc.dart';
+import 'package:liftup/feature/workout/presentation/bloc/routine_bloc.dart';
+import 'package:liftup/feature/workout/presentation/bloc/routine_detail_bloc.dart';
 import 'package:path/path.dart' show join;
 import 'package:sqflite/sqflite.dart';
 import 'injection_container.dart' as di;
 
 void main() async  {
   WidgetsFlutterBinding.ensureInitialized();
-  await deleteDatabase(join(await getDatabasesPath(), "app_database.db"));
+  if(Constants.restDB){
+    await deleteDatabase(join(await getDatabasesPath(), "liftup_app.db"));
+    await SessionManager.logout();
+  }
   await di.init();
   runApp(const MyApp());
 }
@@ -30,6 +36,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.sl<ErrorCubit>()),
         BlocProvider(create: (_) => di.sl<AuthBloc>()),
         BlocProvider(create: (_) => di.sl<ExerciseBloc>()),
+        BlocProvider(create: (_) => di.sl<RoutineBloc>()),
+        BlocProvider(create: (_) => di.sl<RoutineDetailBloc>(),)
       ], 
       child: ScreenUtilInit(
       designSize: const Size(360, 690),
