@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gym_log/feature/auth/presentation/pages/login_page.dart';
-import 'package:gym_log/feature/auth/presentation/pages/signup_page.dart';
+import 'package:liftup/feature/auth/presentation/pages/login_page.dart';
+import 'package:liftup/feature/auth/presentation/pages/signup_page.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -31,7 +31,7 @@ class LandingPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Image.asset("assets/images/gym_logo.png",
+                      Image.asset("assets/images/liftupo.png",
                     height: 80.h,),
                     SizedBox(width: 3.h,),
                     Text(

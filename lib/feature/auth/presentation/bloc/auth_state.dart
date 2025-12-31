@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:gym_log/feature/auth/domain/entities/user_entity.dart';
+import 'package:liftup/feature/auth/domain/entities/user_entity.dart';
 
 abstract class AuthState extends Equatable {
   @override

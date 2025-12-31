@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gym_log/feature/workout/presentation/pages/create_routine_page.dart';
-import 'package:gym_log/feature/workout/presentation/widgets/new_routine_card.dart';
+import 'package:liftup/feature/workout/presentation/pages/create_routine_page.dart';
+import 'package:liftup/feature/workout/presentation/widgets/new_routine_card.dart';
 
 class WorkoutWidget extends StatelessWidget {
   const WorkoutWidget({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gym_log/feature/workout/domain/entities/exercise_entity.dart';
-import 'package:gym_log/feature/workout/presentation/pages/exercise_page.dart';
+import 'package:liftup/feature/workout/domain/entities/exercise_entity.dart';
+import 'package:liftup/feature/workout/presentation/pages/exercise_page.dart';
 
 class CreateRoutinePage extends StatefulWidget {
   const CreateRoutinePage({super.key});

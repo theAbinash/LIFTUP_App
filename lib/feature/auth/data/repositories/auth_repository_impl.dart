@@ -1,8 +1,8 @@
 
-import 'package:gym_log/feature/auth/data/datasources/auth_local_data_source.dart';
-import 'package:gym_log/feature/auth/data/models/user_model.dart';
-import 'package:gym_log/feature/auth/domain/entities/user_entity.dart';
-import 'package:gym_log/feature/auth/domain/repositories/auth_repository.dart';
+import 'package:liftup/feature/auth/data/datasources/auth_local_data_source.dart';
+import 'package:liftup/feature/auth/data/models/user_model.dart';
+import 'package:liftup/feature/auth/domain/entities/user_entity.dart';
+import 'package:liftup/feature/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
 

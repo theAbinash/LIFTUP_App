@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gym_log/core/errors/error_cubit.dart';
-import 'package:gym_log/core/widgets/error_banner.dart';
+import 'package:liftup/core/errors/error_cubit.dart';
+import 'package:liftup/core/widgets/error_banner.dart';
 
 class AppScaffold extends StatelessWidget {
 

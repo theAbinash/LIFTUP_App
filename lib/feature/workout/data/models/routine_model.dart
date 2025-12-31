@@ -1,6 +1,6 @@
 import 'dart:ffi';
 
-import 'package:gym_log/feature/workout/domain/entities/routine_entity.dart';
+import 'package:liftup/feature/workout/domain/entities/routine_entity.dart';
 
 class RoutineModel extends RoutineEntity {
 

@@ -3,16 +3,16 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gym_log/core/errors/error_cubit.dart';
-import 'package:gym_log/core/session/session_manager.dart';
-import 'package:gym_log/core/utils/logger.dart';
-import 'package:gym_log/core/utils/validators.dart';
-import 'package:gym_log/core/widgets/app_scaffold.dart';
-import 'package:gym_log/core/widgets/custom_textformfield.dart';
-import 'package:gym_log/feature/auth/presentation/bloc/auth_bloc.dart';
-import 'package:gym_log/feature/auth/presentation/bloc/auth_event.dart';
-import 'package:gym_log/feature/auth/presentation/bloc/auth_state.dart';
-import 'package:gym_log/feature/home/presentation/pages/home_layout_page.dart';
+import 'package:liftup/core/errors/error_cubit.dart';
+import 'package:liftup/core/session/session_manager.dart';
+import 'package:liftup/core/utils/logger.dart';
+import 'package:liftup/core/utils/validators.dart';
+import 'package:liftup/core/widgets/app_scaffold.dart';
+import 'package:liftup/core/widgets/custom_textformfield.dart';
+import 'package:liftup/feature/auth/presentation/bloc/auth_bloc.dart';
+import 'package:liftup/feature/auth/presentation/bloc/auth_event.dart';
+import 'package:liftup/feature/auth/presentation/bloc/auth_state.dart';
+import 'package:liftup/feature/home/presentation/pages/home_layout_page.dart';
 
 class SignupPage extends StatefulWidget  {
   const SignupPage({super.key});

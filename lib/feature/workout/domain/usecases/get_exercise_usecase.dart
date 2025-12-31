@@ -1,5 +1,5 @@
-import 'package:gym_log/feature/workout/domain/entities/exercise_entity.dart';
-import 'package:gym_log/feature/workout/domain/repositories/exercise_repository.dart';
+import 'package:liftup/feature/workout/domain/entities/exercise_entity.dart';
+import 'package:liftup/feature/workout/domain/repositories/exercise_repository.dart';
 
 class GetExerciseUsecase {
   final ExerciseRepository repository;

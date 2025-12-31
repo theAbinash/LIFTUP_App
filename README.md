@@ -5,7 +5,7 @@ Built using Flutter with a clean architecture approach for scalability and perfo
 
 ---
 
-## 📱 Features
+## Features
 - Create and manage workout routines
 - Track exercises, sets, reps, and weights
 - Automatic workout duration & volume calculation
@@ -14,7 +14,7 @@ Built using Flutter with a clean architecture approach for scalability and perfo
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 - **Flutter**
 - **Dart**
 - **SQLite (sqflite)**
@@ -23,9 +23,16 @@ Built using Flutter with a clean architecture approach for scalability and perfo
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Flutter SDK
 - Android Studio or VS Code
 - Android Emulator or Physical Device
+
+## Project Status
+- Actively under development
+
+## License
+© 2025 Abinash  
+All rights reserved.

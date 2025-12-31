@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:gym_log/core/utils/logger.dart';
-import 'package:gym_log/feature/workout/domain/entities/exercise_entity.dart';
+import 'package:liftup/core/utils/logger.dart';
+import 'package:liftup/feature/workout/domain/entities/exercise_entity.dart';
 
 class ExerciseModel extends ExerciseEntity {
   final int exerciseId;

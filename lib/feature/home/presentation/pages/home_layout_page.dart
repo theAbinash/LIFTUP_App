@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gym_log/feature/home/presentation/widgets/home_widget.dart' show HomeWidget;
-import 'package:gym_log/feature/profile/presentation/pages/profile_page.dart';
-import 'package:gym_log/feature/workout/presentation/pages/workout_page.dart' show WorkoutWidget;
+import 'package:liftup/feature/home/presentation/widgets/home_widget.dart' show HomeWidget;
+import 'package:liftup/feature/profile/presentation/pages/profile_page.dart';
+import 'package:liftup/feature/workout/presentation/pages/workout_page.dart' show WorkoutWidget;
 
 class HomeLayoutPage extends StatefulWidget {
   const HomeLayoutPage({super.key});

@@ -1,7 +1,7 @@
-import 'package:gym_log/feature/workout/data/datasources/exercise_local_data_source.dart';
-import 'package:gym_log/feature/workout/data/datasources/exercise_remote_data_source.dart';
-import 'package:gym_log/feature/workout/domain/entities/exercise_entity.dart';
-import 'package:gym_log/feature/workout/domain/repositories/exercise_repository.dart';
+import 'package:liftup/feature/workout/data/datasources/exercise_local_data_source.dart';
+import 'package:liftup/feature/workout/data/datasources/exercise_remote_data_source.dart';
+import 'package:liftup/feature/workout/domain/entities/exercise_entity.dart';
+import 'package:liftup/feature/workout/domain/repositories/exercise_repository.dart';
 
 class ExerciseRepositoryImpl implements ExerciseRepository {
 

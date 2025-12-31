@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gym_log/core/widgets/app_scaffold.dart';
-import 'package:gym_log/feature/workout/domain/entities/exercise_entity.dart';
-import 'package:gym_log/feature/workout/presentation/bloc/exercise_bloc.dart';
-import 'package:gym_log/feature/workout/presentation/bloc/exercise_event.dart';
-import 'package:gym_log/feature/workout/presentation/bloc/exercise_state.dart';
+import 'package:liftup/core/widgets/app_scaffold.dart';
+import 'package:liftup/feature/workout/domain/entities/exercise_entity.dart';
+import 'package:liftup/feature/workout/presentation/bloc/exercise_bloc.dart';
+import 'package:liftup/feature/workout/presentation/bloc/exercise_event.dart';
+import 'package:liftup/feature/workout/presentation/bloc/exercise_state.dart';
 
 class ExercisePage extends StatefulWidget {
   const ExercisePage({super.key});

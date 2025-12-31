@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gym_log/feature/workout/domain/entities/exercise_entity.dart';
-import 'package:gym_log/feature/workout/domain/usecases/filter_exercise_usecase.dart';
-import 'package:gym_log/feature/workout/domain/usecases/get_exercise_usecase.dart';
-import 'package:gym_log/feature/workout/presentation/bloc/exercise_event.dart';
-import 'package:gym_log/feature/workout/presentation/bloc/exercise_state.dart';
+import 'package:liftup/feature/workout/domain/entities/exercise_entity.dart';
+import 'package:liftup/feature/workout/domain/usecases/filter_exercise_usecase.dart';
+import 'package:liftup/feature/workout/domain/usecases/get_exercise_usecase.dart';
+import 'package:liftup/feature/workout/presentation/bloc/exercise_event.dart';
+import 'package:liftup/feature/workout/presentation/bloc/exercise_state.dart';
 
 class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
 

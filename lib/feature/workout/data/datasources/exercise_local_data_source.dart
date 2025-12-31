@@ -1,5 +1,5 @@
-import 'package:gym_log/core/database/db_helper.dart';
-import 'package:gym_log/feature/workout/data/models/exercise_model.dart';
+import 'package:liftup/core/database/db_helper.dart';
+import 'package:liftup/feature/workout/data/models/exercise_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class ExerciseLocalDataSource {

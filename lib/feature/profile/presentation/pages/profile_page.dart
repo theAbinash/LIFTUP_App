@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gym_log/feature/profile/presentation/pages/editProfile_page.dart';
-import 'package:gym_log/feature/profile/presentation/pages/setting_page.dart';
+import 'package:liftup/feature/profile/presentation/pages/editProfile_page.dart';
+import 'package:liftup/feature/profile/presentation/pages/setting_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

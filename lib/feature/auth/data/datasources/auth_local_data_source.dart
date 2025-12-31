@@ -1,6 +1,6 @@
 
-import 'package:gym_log/core/database/db_helper.dart';
-import 'package:gym_log/feature/auth/data/models/user_model.dart';
+import 'package:liftup/core/database/db_helper.dart';
+import 'package:liftup/feature/auth/data/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthLocalDataSource {

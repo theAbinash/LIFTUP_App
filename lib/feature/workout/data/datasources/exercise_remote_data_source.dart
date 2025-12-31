@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:gym_log/feature/workout/data/models/exercise_model.dart';
+import 'package:liftup/feature/workout/data/models/exercise_model.dart';
 import 'package:http/http.dart' as http;
 
 abstract class ExerciseRemoteDataSource {
