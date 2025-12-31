@@ -1,16 +1,31 @@
-# gym_log
+# LiftUp App 🏋️‍♂️
 
-A new Flutter project.
+**LiftUp** is a mobile fitness application designed to help users track workouts, monitor progress, and stay consistent with their training goals.
+Built using Flutter with a clean architecture approach for scalability and performance.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 📱 Features
+- Create and manage workout routines
+- Track exercises, sets, reps, and weights
+- Automatic workout duration & volume calculation
+- Offline-first support using local database
+- Simple, clean, and user-friendly UI
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🛠️ Tech Stack
+- **Flutter**
+- **Dart**
+- **SQLite (sqflite)**
+- **Bloc / Clean Architecture**
+- **Material UI**
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Flutter SDK
+- Android Studio or VS Code
+- Android Emulator or Physical Device
