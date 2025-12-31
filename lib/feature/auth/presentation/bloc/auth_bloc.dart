@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:liftup/core/utils/logger.dart';
 import 'package:liftup/feature/auth/domain/entities/user_entity.dart';
 import 'package:liftup/feature/auth/domain/repositories/auth_repository.dart';
 
@@ -36,6 +37,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthSuccess(registeredUser));
     }catch (e) {
       emit(AuthFailure("Registration failed: ${e.toString()}"));
+      AppLogger.error("Error: ${e.toString()}");
     }
   }
 

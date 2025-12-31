@@ -11,6 +11,7 @@ class RoutineExerciseModel extends RoutineExerciseEntity {
   final String? routineName;
   final String? exerciseNote;
   final int? exerciseRestTime;
+  final int exerciseType;
   final List<RoutineSetEntity> setValueList;
   
   RoutineExerciseModel({
@@ -22,11 +23,12 @@ class RoutineExerciseModel extends RoutineExerciseEntity {
     this.routineName,
     required this.setValueList, 
     this.exerciseNote,
+    required this.exerciseType,
     this.exerciseRestTime
   }) : super(
     exerciseId: exerciseId, exerciseName: exerciseName,
     exerciseImageUrl: exerciseImageUrl, routineID: routineID,
-    routineName: routineName, setValueList: setValueList,
+    routineName: routineName, setValueList: setValueList, exerciseType: exerciseType,
     workoutId: workoutId, exerciseNote: exerciseNote, exerciseRestTime: exerciseRestTime
   );
 
@@ -51,6 +53,7 @@ class RoutineExerciseModel extends RoutineExerciseEntity {
       exerciseId: map['rd_exercise_id'] ?? 0,
       exerciseRestTime: map['rd_rest_timer'] ?? 0,
       exerciseNote: map['rd_notes'] ?? '', 
+      exerciseType: map['exercise_type_id'],
       setValueList: [], 
       );
   }

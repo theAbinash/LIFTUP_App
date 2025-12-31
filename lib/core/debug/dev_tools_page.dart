@@ -4,7 +4,6 @@ import 'package:liftup/core/database/db_helper.dart';
 import 'package:liftup/core/session/session_manager.dart';
 import 'package:liftup/core/utils/logger.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DevToolsPage extends StatefulWidget {
@@ -53,6 +52,17 @@ class _DevToolsPageState extends State<DevToolsPage> {
     _append('Person in DB: ${result.length}');
     for (final row in result) {
       _append('→ ${row['person_id']}: ${row['person_user_name']}');
+    }
+    setState(() => _loading = false);
+  }
+
+  Future<void> _showExerciseMtr() async {
+    setState(() => _loading = true);
+    final db = await DBHelper().database;
+    final result = await db.rawQuery('SELECT exercise_id,exercise_etm_id FROM tb_exercise_mtr limit 10;');
+    _append('Exercises in DB: ${result.length}');
+    for (final row in result) {
+      _append('→ ${row['exercise_id']}: ${row['exercise_etm_id']}');
     }
     setState(() => _loading = false);
   }
@@ -133,6 +143,11 @@ class _DevToolsPageState extends State<DevToolsPage> {
                   onPressed: _loading ? null : _showPersonMtr,
                   icon: const Icon(Icons.storage),
                   label: const Text('Show Person Master'),
+                ),
+                ElevatedButton.icon(
+                  onPressed: _loading ? null : _showExerciseMtr,
+                  icon: const Icon(Icons.storage),
+                  label: const Text('Show Exercise Master'),
                 ),
                 ElevatedButton.icon(
                   onPressed: _loading ? null : _showSavedWorkouts,

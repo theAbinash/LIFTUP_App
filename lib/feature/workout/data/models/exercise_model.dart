@@ -10,6 +10,7 @@ class ExerciseModel extends ExerciseEntity {
   final List<String> exerciseEquipments;
   final List<String> exerciseBodyParts;
   final int? exerciseMeasurementFlag;
+  final int exerciseType;
 
   ExerciseModel({
     required this.exerciseId,
@@ -17,13 +18,15 @@ class ExerciseModel extends ExerciseEntity {
     required this.exerciseImageUrl,
     required this.exerciseEquipments,
     required this.exerciseBodyParts,
+    required this.exerciseType,
     this.exerciseMeasurementFlag
   }) : super(
     exerciseId: exerciseId, 
     exerciseName: exerciseName, 
     exerciseImageUrl: exerciseImageUrl, 
     exerciseEquipments: exerciseEquipments, 
-    exerciseBodyParts: exerciseBodyParts
+    exerciseBodyParts: exerciseBodyParts,
+    exerciseType: exerciseType
     );
 
   Map<String, dynamic> toMap() {
@@ -33,7 +36,8 @@ class ExerciseModel extends ExerciseEntity {
       'exercise_image_url': exerciseImageUrl,
       'exercise_equipments': jsonEncode(exerciseEquipments),
       'exercise_primary_muscle': jsonEncode(exerciseBodyParts),
-      'exercise_measurement_flag': exerciseMeasurementFlag
+      'exercise_measurement_flag': exerciseMeasurementFlag,
+      'exercise_etm_id': exerciseType
     };
   }
 
@@ -50,6 +54,7 @@ class ExerciseModel extends ExerciseEntity {
           ? List<String>.from(jsonDecode(map['exercise_primary_muscle']))
           : [],
       exerciseMeasurementFlag: map['exercise_measurement_flag'] ?? 0,
+      exerciseType: map['exercise_type_id'] ?? 0,
     );
   }
 
@@ -61,6 +66,7 @@ class ExerciseModel extends ExerciseEntity {
       exerciseEquipments: (json['exercise_equipments'] as List?)?.map((e) => e.toString()).toList() ?? [],
       exerciseBodyParts: (json['exercise_primary_muscle'] as List?)?.map((e) => e.toString()).toList() ?? [],
       exerciseMeasurementFlag: json['exercise_measurement_flag'] ?? 0,
+      exerciseType: json['exercise_type_id'] ?? 0,
     );
   }
 }

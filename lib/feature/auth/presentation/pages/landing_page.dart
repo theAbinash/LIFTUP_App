@@ -31,7 +31,7 @@ class LandingPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Image.asset("assets/images/liftupo.png",
+                      Image.asset("assets/images/logo_black_bg.png",
                     height: 80.h,),
                     SizedBox(width: 3.h,),
                     Text(

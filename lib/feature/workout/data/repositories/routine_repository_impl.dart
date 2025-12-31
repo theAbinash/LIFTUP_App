@@ -58,6 +58,7 @@ class RoutineRepositoryImpl implements RoutineRepository {
         exerciseName: row['exercise_name'],
         exerciseNote: row['exercise_note'],
         exerciseRestTime: row['exercise_rest_time'],
+        exerciseType: row['exercise_type_id'] ?? 0,
         routineID: routineId,
         setValueList: [],
       );
@@ -76,6 +77,10 @@ class RoutineRepositoryImpl implements RoutineRepository {
         setRepsCount: row['set_reps_count'],
         setDistance: row['set_distance'],
         setDuration: row['set_duration'],
+        prevRepsCount: row['actual_reps_count'],
+        prevSetDistance: row['actual_distance'],
+        prevSetDuration: row['actual_duration'],
+        prevSetWeight: row['actual_weight'],
       );
 
       exerciseMap[workoutId]?.setValueList.add(setEntity);
@@ -119,6 +124,7 @@ class RoutineRepositoryImpl implements RoutineRepository {
           exerciseId: row['exercise_id'] ?? 0,
           exerciseName: row['exercise_name'],
           exerciseNote: row['exercise_note'],
+          exerciseType: row['exercise_type_id'] ?? 0,
           exerciseRestTime: row['exercise_rest_time'],
           routineID: routineId,
           setValueList: [],
@@ -171,6 +177,7 @@ class RoutineRepositoryImpl implements RoutineRepository {
           exerciseRestTime: workout.exerciseRestTime,
           exerciseNote: workout.exerciseNote,
           setValueList: workout.setValueList,
+          exerciseType: workout.exerciseType,
         );
 
     final workoutId = await localDataSource.saveRoutineDetail(workoutModel);

@@ -6,6 +6,7 @@ class ExerciseEntity {
   final List<String> exerciseEquipments;
   final List<String> exerciseBodyParts;
   final int? exerciseMeasurementFlag;
+  final int exerciseType;
 
   const ExerciseEntity({
     required this.exerciseId,
@@ -13,6 +14,7 @@ class ExerciseEntity {
     required this.exerciseImageUrl,
     required this.exerciseEquipments,
     required this.exerciseBodyParts,
-    this.exerciseMeasurementFlag
+    this.exerciseMeasurementFlag,
+    required this.exerciseType
   });
 }

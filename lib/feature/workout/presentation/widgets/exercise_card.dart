@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:liftup/feature/workout/domain/entities/routine_exercise_entity.dart';
+import 'package:liftup/feature/workout/presentation/widgets/exercise_ui_config.dart';
 
 class ExerciseCard extends StatelessWidget {
 
@@ -27,6 +28,7 @@ class ExerciseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final uiConfig = getExerciseUIConfig(exercise.exerciseType);
     
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0,),
@@ -109,10 +111,22 @@ class ExerciseCard extends StatelessWidget {
                   flex: 2,
                   child: Text("PREVIOUS", style: theme.textTheme.labelLarge),
                 ),
+                if(uiConfig.showWeight)
                 Expanded(
                   flex: 1,
                   child: Text("KG", style: theme.textTheme.labelLarge),
                 ),
+                if(uiConfig.showDuration)
+                Expanded(
+                  flex: 1,
+                  child: Text("Time", style: theme.textTheme.labelLarge),
+                ),
+                if(uiConfig.showDistance)
+                Expanded(
+                  flex: 1,
+                  child: Text("Distance", style: theme.textTheme.labelLarge),
+                ),
+                if(uiConfig.showReps)
                 Expanded(
                   flex: 1,
                   child: Text("REPS", style: theme.textTheme.labelLarge),
@@ -136,6 +150,27 @@ class ExerciseCard extends StatelessWidget {
               final isEven = setIndex  % 2 == 0;
               final isCompleted = set.isCompleted == true;
 
+              final double weight = (set.prevSetWeight ?? 0) > 0
+                                          ? set.prevSetWeight!
+                                          : (set.setWeight ?? 0);
+
+              final int reps = (set.prevRepsCount ?? 0) > 0
+                                          ? set.prevRepsCount!
+                                          : (set.setRepsCount ?? 0);
+
+              final int duration = (set.prevSetDuration ?? 0) > 0
+                                          ? set.prevSetDuration!
+                                          : (set.setDuration ?? 0);
+
+              final int distance = (set.prevSetDistance ?? 0) > 0
+                                          ? set.prevSetDistance!
+                                          : (set.setDistance ?? 0);
+
+              /* final String previousValue = (
+                (exercise.exerciseType == Constants.exerciseTypeWithReps ? set.prevRepsCount : ) ||
+                (exercise.exerciseType == Constants.exerciseTypeWithReps ? )
+              ).toString();
+ */
               final bgColor = isCompleted
                   ? Colors.green.withOpacity(0.3)
                   : (isEven
@@ -180,6 +215,7 @@ class ExerciseCard extends StatelessWidget {
                       Expanded(
                         flex: 2,
                         child: TextFormField(
+                          //previous
                           initialValue: set.setCount.toString(),
                           readOnly: true,
                           decoration: const InputDecoration(
@@ -189,10 +225,11 @@ class ExerciseCard extends StatelessWidget {
                         ),
                       ),
 
+                      if (uiConfig.showWeight)
                       Expanded(
                         flex: 1,
                         child: TextFormField(
-                          initialValue: set.setWeight.toString(),
+                          initialValue: weight.toString(),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
@@ -204,10 +241,43 @@ class ExerciseCard extends StatelessWidget {
                         ),
                       ),
 
+                      if (uiConfig.showDuration)
                       Expanded(
                         flex: 1,
                         child: TextFormField(
-                          initialValue: set.setRepsCount.toString(),
+                          initialValue: duration.toString(),
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          style: theme.textTheme.bodySmall,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            set.setDuration = int.tryParse(value);
+                          },
+                        ),
+                      ),
+
+                      if (uiConfig.showDistance)
+                      Expanded(
+                        flex: 1,
+                        child: TextFormField(
+                          initialValue: distance.toString(),
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          style: theme.textTheme.bodySmall,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            set.setDistance = int.tryParse(value);
+                          },
+                        ),
+                      ),
+
+                      if (uiConfig.showReps)
+                      Expanded(
+                        flex: 1,
+                        child: TextFormField(
+                          initialValue: reps.toString(),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),

@@ -188,13 +188,28 @@ class DBHelper{
         rs.rs_distance AS set_distance,
         rs.rs_duration AS set_duration,
         pm.person_user_name AS created_person_name,
-        pm.person_id AS user_id
+        pm.person_id AS user_id,
+
+        wset.wset_set,
+        wset.wset_actual_reps AS actual_reps_count,
+        wset.wset_actual_weight AS actual_weight,
+        wset.wset_actual_distance AS actual_distance,
+        wset.wset_actual_duration AS actual_duration,
+        ws.ws_start_time AS workout_start_time, 
+        ws.ws_end_time AS workout_end_time,
+        ws.ws_total_duration AS ws_tot_duration,
+        ws.ws_total_volume AS ws_tot_volume, 
+        ws.ws_total_sets AS ws_tot_sets
 
       FROM tb_routine_header rh
       LEFT JOIN tb_routine_detail rd ON rh.rh_id = rd.rd_rh_id 
       LEFT JOIN tb_person_mtr pm ON pm.person_id = rh.rh_created_person_id
       LEFT JOIN tb_exercise_mtr em ON em.exercise_id = rd.rd_exercise_id
       LEFT JOIN tb_routine_set rs ON rd.rd_id = rs.rs_rd_id
+      LEFT JOIN tb_workout_session ws ON ws.ws_rh_id = rh.rh_id
+      LEFT JOIN tb_workout_exercise we ON we.we_ws_id = ws.ws_id AND we.we_exercise_id = em.exercise_id
+      LEFT JOIN tb_workout_set wset ON wset.wset_we_id = we.we_id AND wset.wset_rs_id = rs.rs_id
+      GROUP BY rh.rh_id, rd.rd_exercise_id
       ORDER BY rh.rh_id, rd.rd_id, rs.rs_id;
     ''');
 

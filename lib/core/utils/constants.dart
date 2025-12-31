@@ -11,6 +11,13 @@ class Constants {
 
   static const bool restDB = false;
 
+  static const int exerciseTypeWithReps = 1;
+  static const int exerciseTypeWithWeightAndReps = 2;
+  static const int exerciseTypeWithWeightAndDuration = 3;
+  static const int exerciseTypeWithDurationOnly = 4;
+  static const int exerciseTypeWithDistanceOnly = 5;
+  static const int exerciseTypeWithDistanceAndWeight = 6;
+
   static const int mediaTypePhoto = 1;
   static const int mediaTypeVideo = 2;
 }

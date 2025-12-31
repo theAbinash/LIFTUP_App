@@ -180,6 +180,7 @@ class _CreateRoutinePage extends State<CreateRoutinePage> {
                           exerciseId: ex.exerciseId, 
                           exerciseName: ex.exerciseName, 
                           exerciseImageUrl: ex.exerciseImageUrl,
+                          exerciseType: ex.exerciseType,
                           setValueList: [RoutineSetEntity(setCount: 1, setWeight: 0, setRepsCount: 0)],
                           )),
                       );

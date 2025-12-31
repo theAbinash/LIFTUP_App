@@ -11,6 +11,7 @@ class RoutineExerciseEntity {
   final String? exerciseNote;
   final int? exerciseRestTime;
   final int? exerciseSeqNo;
+  final int exerciseType;
   final List<RoutineSetEntity> setValueList;
 
   const RoutineExerciseEntity({
@@ -20,6 +21,7 @@ class RoutineExerciseEntity {
     this.routineID,
     this.routineName,
     this.exerciseSeqNo,
+    required this.exerciseType,
     this.setValueList = const [],
     this.workoutId, this.exerciseNote, this.exerciseRestTime
   });
