@@ -53,6 +53,7 @@ class _WorkoutWidget extends State<WorkoutWidget> {
         title: const Text("Workout"),
         centerTitle: true,
         elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: Stack(
         children: [
