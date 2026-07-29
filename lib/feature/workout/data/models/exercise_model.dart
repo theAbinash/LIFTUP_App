@@ -54,7 +54,7 @@ class ExerciseModel extends ExerciseEntity {
           ? List<String>.from(jsonDecode(map['exercise_primary_muscle']))
           : [],
       exerciseMeasurementFlag: map['exercise_measurement_flag'] ?? 0,
-      exerciseType: map['exercise_type_id'] ?? 0,
+      exerciseType: map['exercise_etm_id'] ?? 0,
     );
   }
 

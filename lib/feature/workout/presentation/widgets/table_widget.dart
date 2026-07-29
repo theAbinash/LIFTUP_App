@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:liftup/feature/workout/domain/entities/exercise_column_entity.dart';
 import 'package:liftup/feature/workout/domain/entities/routine_exercise_entity.dart';
 import 'package:liftup/feature/workout/presentation/widgets/table_header_row.dart';
