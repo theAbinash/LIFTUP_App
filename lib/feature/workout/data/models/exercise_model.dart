@@ -66,7 +66,7 @@ class ExerciseModel extends ExerciseEntity {
       exerciseEquipments: (json['exercise_equipments'] as List?)?.map((e) => e.toString()).toList() ?? [],
       exerciseBodyParts: (json['exercise_primary_muscle'] as List?)?.map((e) => e.toString()).toList() ?? [],
       exerciseMeasurementFlag: json['exercise_measurement_flag'] ?? 0,
-      exerciseType: json['exercise_type_id'] ?? 0,
+      exerciseType: json['exercise_etm_id'] ?? 0,
     );
   }
 }
