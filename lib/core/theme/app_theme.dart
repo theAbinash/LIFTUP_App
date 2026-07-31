@@ -1,85 +1,50 @@
+
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
-import 'app_text_styles.dart';
 
-class AppTheme {
-  static ThemeData lightTheme = ThemeData(
-    brightness: Brightness.light,
-    scaffoldBackgroundColor: AppColors.lightBackground,
-    dividerTheme: DividerThemeData(
-      color: AppColors.lightDivider.withOpacity(0.4),
-      thickness: 1,
-      space: 16,
-    ),
-    primarySwatch: Colors.blue,
-    appBarTheme: const AppBarTheme(
-      centerTitle: true,
-      foregroundColor: AppColors.lightTextPrimary,
-      backgroundColor: AppColors.lightAppBar,
-      elevation: 0,
-      scrolledUnderElevation: 0,
-      titleTextStyle: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.normal,
-        color: AppColors.lightTextPrimary,
-      ),
-    ),
-    textTheme: const TextTheme(
-      displayLarge: AppTextStyles.lightHeading1,
-      headlineLarge: AppTextStyles.lightHeading2,
-      titleLarge: AppTextStyles.lightTitle,
-      titleMedium: AppTextStyles.lightTitle,
-      bodyLarge: AppTextStyles.lightBody,
-      bodyMedium: AppTextStyles.lightBody,
-      bodySmall: AppTextStyles.lightBodySmall,
-      labelLarge: AppTextStyles.lightLabel,
-      labelSmall: AppTextStyles.lightGrey,
-    ),
-    colorScheme: const ColorScheme.light(
-      primary: AppColors.primary,
-      secondary: AppColors.secondary,
-      background: AppColors.lightBackground,
-      error: AppColors.error,
-    ),
-  );
+@immutable
+class AppTheme extends ThemeExtension<AppTheme> {
+  final Color card;
+  final Color border;
+  final Color textSecondary;
 
-  static ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: AppColors.darkBackground,
-    dividerTheme: DividerThemeData(
-      color: AppColors.darkDivider.withOpacity(0.4),
-      thickness: 1,
-      space: 16,
-    ),
-    primarySwatch: Colors.blue,
-    appBarTheme: const AppBarTheme(
-      centerTitle: true,
-      foregroundColor: AppColors.darkTextPrimary,
-      backgroundColor: AppColors.darkAppBar,
-      elevation: 0,
-      scrolledUnderElevation: 0,
-      titleTextStyle: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.normal,
-        color: AppColors.darkTextPrimary,
-      ),
-    ),
-    textTheme: const TextTheme(
-      displayLarge: AppTextStyles.darkHeading1,
-      headlineLarge: AppTextStyles.darkHeading2,
-      titleLarge: AppTextStyles.darkTitle,
-      titleMedium: AppTextStyles.darkTitle,
-      bodyLarge: AppTextStyles.darkBody,
-      bodyMedium: AppTextStyles.darkBody,
-      bodySmall: AppTextStyles.darkBodySmall,
-      labelLarge: AppTextStyles.darkLabel,
-      labelSmall: AppTextStyles.darkGrey,
-    ),
-    colorScheme: const ColorScheme.dark(
-      primary: AppColors.primary,
-      secondary: AppColors.secondary,
-      background: AppColors.darkBackground,
-      error: AppColors.error,
-    ),
-  );
+  const AppTheme({
+    required this.card,
+    required this.border,
+    required this.textSecondary,
+  });
+
+  @override
+  AppTheme copyWith({
+    Color? card,
+    Color? border,
+    Color? textSecondary,
+  }) {
+    return AppTheme(
+      card: card ?? this.card,
+      border: border ?? this.border,
+      textSecondary: textSecondary ?? this.textSecondary,
+    );
+  }
+
+  @override
+  AppTheme lerp(
+    ThemeExtension<AppTheme>? other,
+    double t,
+  ) {
+    if (other is! AppTheme) return this;
+
+    return AppTheme(
+      card: Color.lerp(card, other.card, t)!,
+      border: Color.lerp(border, other.border, t)!,
+      textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
+    );
+  }
 }
+
+ /* final colors = Theme.of(context).extension<AppThemeColors>()!;
+
+final colors = Theme.of(context).extension<AppThemeColors>()!;
+
+Container(
+  color: colors.card,
+) */
