@@ -6,9 +6,7 @@ import '../theme/app_radius.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;
-
   final EdgeInsetsGeometry padding;
-
   final EdgeInsetsGeometry margin;
 
   final VoidCallback? onTap;
@@ -44,11 +42,11 @@ class AppCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: color ?? Theme.of(context).cardColor,
         borderRadius: radius,
-        border: border ??
+        /* border: border ??
             Border.all(
               color: AppColors.darkBorder.withOpacity(.6),
               width: .8,
-            ),
+            ), */
         boxShadow: boxShadow,
       ),
       child: child,
