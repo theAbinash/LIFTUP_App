@@ -215,16 +215,6 @@ void _finishWorkout() {
     });
   }
 
-  //------------------------------------------------------------
-  // Expand / Collapse
-  //------------------------------------------------------------
-
-  bool _isExpanded(
-      RoutineExerciseEntity exercise) {
-    return _expandedExercises
-        .contains(exercise.exerciseId);
-  }
-
   void _toggleExpanded(
       RoutineExerciseEntity exercise) {
     setState(() {

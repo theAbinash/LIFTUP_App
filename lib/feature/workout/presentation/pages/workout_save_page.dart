@@ -55,8 +55,6 @@ class _WorkoutSavePageState extends State<WorkoutSavePage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     TextEditingController? _noteController;
     return BlocListener<RoutineBloc, RoutineState>(
       listener: (context, state) {

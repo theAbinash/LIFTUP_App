@@ -112,8 +112,6 @@ class _CreateRoutinePage extends State<CreateRoutinePage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return PopScope(
       canPop: !_hasChanges,
       onPopInvokedWithResult: (didPop, result) {
