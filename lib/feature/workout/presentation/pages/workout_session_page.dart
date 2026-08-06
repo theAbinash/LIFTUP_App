@@ -3,22 +3,38 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:liftup/core/widgets/app_scaffold.dart';
+import 'package:liftup/feature/workout/domain/entities/routine_exercise_entity.dart';
+import 'package:liftup/feature/workout/domain/entities/routine_set_entity.dart';
 import 'package:liftup/feature/workout/domain/entities/workout_session_entity.dart';
+
+import 'package:liftup/feature/workout/presentation/controllers/exercise_set_controller_manager.dart';
 import 'package:liftup/feature/workout/presentation/pages/workout_page.dart';
 import 'package:liftup/feature/workout/presentation/pages/workout_save_page.dart';
-import 'package:liftup/feature/workout/presentation/widgets/exercise_card.dart';
+import 'package:liftup/feature/workout/presentation/widgets/appbar/workout_app_bar.dart';
+import 'package:liftup/feature/workout/presentation/widgets/exercise/exercise_card.dart';
+import 'package:liftup/feature/workout/presentation/widgets/exercise/workout_exercise_body.dart';
+import 'package:liftup/feature/workout/presentation/widgets/summary/workout_summary_card.dart';
 
 class WorkoutSessionPage extends StatefulWidget {
   final WorkoutSessionEntity session;
 
-  const WorkoutSessionPage({super.key, required this.session});
+  const WorkoutSessionPage({
+    super.key,
+    required this.session,
+  });
 
   @override
-  State<WorkoutSessionPage> createState() => _WorkoutSessionPageState();
+  State<WorkoutSessionPage> createState() =>
+      _WorkoutSessionPageState();
 }
 
-class _WorkoutSessionPageState extends State<WorkoutSessionPage> {
+class _WorkoutSessionPageState
+    extends State<WorkoutSessionPage> {
+
   late WorkoutSessionEntity session;
+  late final ExerciseSetControllerManager _controllerManager;
+  final Set<int> _expandedExercises = {};
+
   Timer? _timer;
   Duration _elapsed = Duration.zero;
   bool _isRunning = true;
@@ -28,195 +44,133 @@ class _WorkoutSessionPageState extends State<WorkoutSessionPage> {
     super.initState();
     session = widget.session;
     _elapsed = session.elapsedDuration;
+    _controllerManager = ExerciseSetControllerManager();
     _startTimer();
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    _controllerManager.dispose();
     super.dispose();
   }
 
-  void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (_isRunning) {
-        setState(() {
-          _elapsed += const Duration(seconds: 1);
-          session.elapsedDuration = _elapsed;
-        });
-      }
+  void _addSet(RoutineExerciseEntity exercise) {
+    setState(() {
+      exercise.setValueList.add(
+        RoutineSetEntity(
+          setCount: exercise.setValueList.length + 1,
+          setWeight: 0,
+          setRepsCount: 0,
+        ),
+      );
     });
   }
 
-  void _pauseTimer() => setState(() => _isRunning = false);
-  void _resumeTimer() => setState(() => _isRunning = true);
+  void _showRestTimerBottomSheet(
+  RoutineExerciseEntity exercise,
+) {
+    showModalBottomSheet(
+      context: context,
+      showDragHandle: true,
+      builder: (_) {
 
-  void _pauseAndExit() {
-    _pauseTimer();
-    session.elapsedDuration = _elapsed; 
-    
-    Navigator.pushAndRemoveUntil(
-    context,
-    MaterialPageRoute(
-      builder: (_) => WorkoutWidget(pausedSession: session),
-    ),
-    (route) => false,
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                title: const Text("Off"),
+                onTap: () {
+                  setState(() {
+                    exercise.exerciseRestTime = 0;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+
+              ListTile(
+                title: const Text("30 sec"),
+                onTap: () {
+                  setState(() {
+                    exercise.exerciseRestTime = 30;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+
+              ListTile(
+                title: const Text("60 sec"),
+                onTap: () {
+                  setState(() {
+                    exercise.exerciseRestTime = 60;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+
+              ListTile(
+                title: const Text("90 sec"),
+                onTap: () {
+                  setState(() {
+                    exercise.exerciseRestTime = 90;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+
+              ListTile(
+                title: const Text("120 sec"),
+                onTap: () {
+                  setState(() {
+                    exercise.exerciseRestTime = 120;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+void _finishWorkout() {
+
+  final allSets = session.exerciseList
+      .expand((e) => e.setValueList)
+      .toList();
+
+  final hasWorkout = allSets.any(
+    (set) =>
+        set.isCompleted &&
+        ((set.setWeight ?? 0) > 0 ||
+            (set.setRepsCount ?? 0) > 0),
   );
-  }
 
-  String _formatDuration(Duration d) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    final hours = d.inHours;
-    final minutes = twoDigits(d.inMinutes.remainder(60));
-    final seconds = twoDigits(d.inSeconds.remainder(60));
+  if (!hasWorkout) {
 
-    if (hours > 0) return "$hours hr $minutes min";
-    if (d.inMinutes > 0) return "$minutes min $seconds s";
-    return "$seconds s";
-  }
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Workout"),
 
-  int _getTotalSets() {
-    return session.exerciseList.fold<int>(
-      0,
-      (sum, exercise) => sum + exercise.setValueList.length,
-    );
-  }
-
-  int _getCompletedSets() {
-    return session.exerciseList.fold<int>(
-      0,
-      (sum, exercise) =>
-          sum + exercise.setValueList.where((s) => s.isCompleted).length,
-    );
-  }
-
-  double _getTotalVolumeKg() {
-    double total = 0;
-    for (var exercise in session.exerciseList) {
-      for (var set in exercise.setValueList) {
-        if (set.setWeight != null && set.setRepsCount != null) {
-          total += set.setWeight! * set.setCount;
-        }
-      }
-    }
-    return total;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return AppScaffold(
-      appBar: AppBar(
-        title: Text(session.routineName),
-        leading: IconButton(
-          icon: const Icon(Icons.keyboard_arrow_down, size: 30),
-          onPressed: _pauseAndExit,
+        content: const Text(
+          "You haven't completed any sets.",
         ),
+
         actions: [
-          SizedBox(
-            width: 90.w,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(6.r),
-                ),
-              ),
-              onPressed: _finishWorkout,
-              child: Text(
-                "Finish",
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.normal
-                ),
-              ),
-            )
-          )
-          
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("OK"),
+          ),
         ],
       ),
-      body: SingleChildScrollView(
-              padding: EdgeInsets.all(16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: _isRunning ? _pauseTimer : _resumeTimer,
-                        child: _buildStat(
-                          "Duration",
-                          _formatDuration(_elapsed),
-                          icon: Icons.access_time,
-                        ),
-                      ),
-                      _buildStat(
-                        "Volume",
-                        "${_getTotalVolumeKg().toStringAsFixed(0)} kg",
-                        icon: Icons.fitness_center,
-                      ),
-                      _buildStat(
-                        "Sets",
-                        "${_getCompletedSets()}/${_getTotalSets()}",
-                        icon: Icons.check_circle_outline,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.h),
-                  Divider(height: 1.h, color: Colors.grey,),
-                  SizedBox(height: 10.h),
-
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: session.exerciseList.length,
-                    itemBuilder: (context, index) {
-                      final workout = session.exerciseList[index];
-                      return ExerciseCard(
-                        exercise: workout,
-                        workoutSession: true,
-                        onSetComplete: (setIndex) {
-                        final currentSet = workout.setValueList[setIndex];
-                        currentSet.isCompleted = !(currentSet.isCompleted);
-                        setState(() {});
-                      },
-                        );
-                    },
-                  ),
-                  
-                ],
-              ),
-            )
     );
+
+    return;
   }
-
-  void _finishWorkout() {
-    final allSets = session.exerciseList.expand((e) => e.setValueList).toList();
-
-    bool hasAnyValue = allSets.any((set) =>
-      set.isCompleted && (
-      (set.setWeight != null && set.setWeight! > 0) ||
-      (set.setRepsCount != null && set.setRepsCount! > 0) ));
-
-    if (!hasAnyValue) {
-      showDialog(
-        context: context, 
-        builder: (_) => AlertDialog(
-          content: const Text("You haven't done your workout yet."),
-          actions: [
-            TextButton(
-            child: const Text("OK"),
-            onPressed: () => Navigator.pop(context),
-          ),
-          ],
-        )
-        );
-      return;
-    }
 
     Navigator.push(
       context,
@@ -224,32 +178,221 @@ class _WorkoutSessionPageState extends State<WorkoutSessionPage> {
         builder: (_) => WorkoutSavePage(
           duration: _elapsed,
           totalVolumeKg: _getTotalVolumeKg(),
-          completedSets: allSets.where((s) => s.isCompleted).length,
-          totalSets: allSets.length,
+          completedSets: _getCompletedSets(),
+          totalSets: _getTotalSets(),
           session: session,
         ),
-      )
+      ),
     );
   }
-}
 
-Widget _buildStat(String title, String value, {required IconData icon}) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16.sp,
-          ),
-        ),
-        Text(
-          title,
-          style: TextStyle(
-            color: Colors.grey[500],
-            fontSize: 13.sp,
-          ),
-        ),
-      ],
+  //------------------------------------------------------------
+  // Timer
+  //------------------------------------------------------------
+
+  void _startTimer() {
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (_) {
+        if (!_isRunning) return;
+        setState(() {
+          _elapsed += const Duration(seconds: 1);
+          session.elapsedDuration = _elapsed;
+        });
+      },
     );
+  }
+
+  void _pauseTimer() {
+    setState(() {
+      _isRunning = false;
+    });
+  }
+
+  void _resumeTimer() {
+    setState(() {
+      _isRunning = true;
+    });
+  }
+
+  //------------------------------------------------------------
+  // Expand / Collapse
+  //------------------------------------------------------------
+
+  bool _isExpanded(
+      RoutineExerciseEntity exercise) {
+    return _expandedExercises
+        .contains(exercise.exerciseId);
+  }
+
+  void _toggleExpanded(
+      RoutineExerciseEntity exercise) {
+    setState(() {
+      if (_expandedExercises
+          .contains(exercise.exerciseId)) {
+        _expandedExercises
+            .remove(exercise.exerciseId);
+      } else {
+        _expandedExercises
+            .add(exercise.exerciseId);
+      }
+    });
+  }
+
+  //------------------------------------------------------------
+  // Pause Workout
+  //------------------------------------------------------------
+
+  void _pauseAndExit() {
+    _pauseTimer();
+
+    session.elapsedDuration = _elapsed;
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (_) => WorkoutWidget(
+          pausedSession: session,
+        ),
+      ),
+      (route) => false,
+    );
+  }
+
+  //------------------------------------------------------------
+  // Helpers
+  //------------------------------------------------------------
+
+  String _formatDuration(Duration d) {
+    String twoDigits(int n) =>
+        n.toString().padLeft(2, "0");
+
+    final hours = d.inHours;
+    final minutes =
+        twoDigits(d.inMinutes.remainder(60));
+    final seconds =
+        twoDigits(d.inSeconds.remainder(60));
+        
+    if (hours > 0) {
+      return "$hours hr $minutes min";
+    }
+
+    if (d.inMinutes > 0) {
+      return "$minutes min $seconds s";
+    }
+
+    return "$seconds s";
+  }
+
+  int _getTotalSets() {
+    return session.exerciseList.fold(
+      0,
+      (sum, exercise) =>
+          sum + exercise.setValueList.length,
+    );
+  }
+
+  int _getCompletedSets() {
+    return session.exerciseList.fold(
+      0,
+      (sum, exercise) =>
+          sum +
+          exercise.setValueList
+              .where((e) => e.isCompleted)
+              .length,
+    );
+  }
+
+  double _getTotalVolumeKg() {
+    double total = 0;
+
+    for (final exercise
+        in session.exerciseList) {
+      for (final set
+          in exercise.setValueList) {
+        if (set.setWeight != null &&
+            set.setRepsCount != null) {
+          total +=
+              set.setWeight! *
+              set.setCount;
+        }
+      }
+    }
+
+    return total;
+  }
+
+  //------------------------------------------------------------
+  // Build
+  //------------------------------------------------------------
+
+    @override
+  Widget build(BuildContext context) {
+    return AppScaffold(
+      appBar: WorkoutAppBar(
+        title: session.routineName,
+        onClose: _pauseAndExit,
+        onFinish: _finishWorkout,
+      ),
+
+      body: ListView.separated(
+        padding: EdgeInsets.all(16.w),
+
+        itemCount: session.exerciseList.length + 1,
+
+        separatorBuilder: (_, __) => SizedBox(height: 16.h),
+
+        itemBuilder: (context, index) {
+
+          /// Workout Summary
+          if (index == 0) {
+            return WorkoutSummaryCard(
+              duration: _formatDuration(_elapsed),
+
+              volume:
+                  "${_getTotalVolumeKg().toStringAsFixed(0)} kg",
+
+              sets:
+                  "${_getCompletedSets()}/${_getTotalSets()}",
+
+              isRunning: _isRunning,
+
+              onDurationTap: () {
+                if (_isRunning) {
+                  _pauseTimer();
+                } else {
+                  _resumeTimer();
+                }
+              },
+            );
+          }
+
+          /// Exercise Card
+          final exercise = session.exerciseList[index - 1];
+
+          return ExerciseCard(
+            exercise: exercise,
+            onExpand: () {
+              _toggleExpanded(exercise);
+            },
+            child: WorkoutExerciseBody(
+              exercise: exercise, 
+              controllerManager: _controllerManager,
+
+              onNotesChanged: (value) {
+                exercise.exerciseNote = value;
+              },
+              onRestTimerTap: () {
+                _showRestTimerBottomSheet(exercise);
+              },
+              onAddSet: () {
+                _addSet(exercise);
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+
 }

@@ -6,8 +6,11 @@ import 'package:liftup/feature/workout/domain/entities/workout_session_entity.da
 import 'package:liftup/feature/workout/presentation/bloc/routine_detail_bloc.dart';
 import 'package:liftup/feature/workout/presentation/bloc/routine_detail_event.dart';
 import 'package:liftup/feature/workout/presentation/bloc/routine_detail_state.dart';
+import 'package:liftup/feature/workout/presentation/pages/create_routine_page.dart';
 import 'package:liftup/feature/workout/presentation/pages/workout_session_page.dart';
-import 'package:liftup/feature/workout/presentation/widgets/exercise_card.dart';
+import 'package:liftup/feature/workout/presentation/widgets/exercise/exercise_card.dart';
+import 'package:liftup/feature/workout/presentation/widgets/exercise/routine_exercise_body.dart';
+import 'package:liftup/feature/workout/presentation/widgets/routine/routine_header.dart';
 
 class RoutinePage extends StatefulWidget {
   final int routineId;
@@ -23,6 +26,22 @@ class _RoutinePageState extends State<RoutinePage> {
   void initState(){
     super.initState();
     context.read<RoutineDetailBloc>().add(LoadRoutineDetail(widget.routineId));
+  }
+
+  void _startRoutine(routine) {
+    final session = WorkoutSessionEntity(
+      workoutSessionId: DateTime.now().millisecondsSinceEpoch,
+      routineId: routine.routineId,
+      routineName: routine.routineName,
+      exerciseList: routine.workoutList ?? [],
+      startTime: DateTime.now(),
+      userId: 1,
+    );
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => WorkoutSessionPage(session: session)),
+    );
   }
 
   @override
@@ -45,71 +64,12 @@ class _RoutinePageState extends State<RoutinePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    routine.routineName,
-                    style: TextStyle(
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  RoutineHeader(
+                    routine: routine, 
+                    onStart: () => _startRoutine(routine),
                   ),
-                  SizedBox(height: 6.h),
-                  Text(
-                    "Created by ${routine.createdPersonName ?? ""}",
-                    style: TextStyle(
-                      fontSize: 13.sp,
-                      color: Colors.grey[500],
-                    ),
-                  ),
-                  SizedBox(height: 18.h),
 
-                  // Stats
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildStat("Est Duration", "${routine.estimatedDuration} min"),
-                      _buildStat("Exercises", "${routine.workoutList?.length ?? 0}"),
-                      _buildStat("Sets", "${routine.estimatedDuration}"),
-                    ],
-                  ),
                   SizedBox(height: 20.h),
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(8.r),
-                        ),
-                      ),
-                      onPressed: () {
-                        final session = WorkoutSessionEntity(
-                          workoutSessionId: DateTime.now().millisecondsSinceEpoch,
-                          routineId: routine.routineId,
-                          routineName: routine.routineName,
-                          exerciseList: routine.workoutList ?? [], 
-                          startTime: DateTime.now(),
-                          userId: 1,
-                        );
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => WorkoutSessionPage(session: session),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        "Start Routine",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal
-                        ),
-                        ),
-                    ),
-                  ),
-                  SizedBox(height: 18.h),
 
                   // Chart placeholder
                   Container(
@@ -148,7 +108,15 @@ class _RoutinePageState extends State<RoutinePage> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => CreateRoutinePage(existingRoutine: routine)),
+                          );
+                          if (context.mounted) {
+                            context.read<RoutineDetailBloc>().add(LoadRoutineDetail(widget.routineId));
+                          }
+                        },
                         child: Text(
                           "Edit Routine",
                           style: TextStyle(
@@ -170,6 +138,8 @@ class _RoutinePageState extends State<RoutinePage> {
                       final workout = routine.workoutList![index];
                       return ExerciseCard(
                         exercise: workout,
+                        onExpand: () {},
+                        child: RoutineExerciseBody(exercise: workout),
                         );
                     },
                   ),
@@ -184,25 +154,4 @@ class _RoutinePageState extends State<RoutinePage> {
       );
   }
   
-}
-
-Widget _buildStat(String title, String value) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16.sp,
-          ),
-        ),
-        Text(
-          title,
-          style: TextStyle(
-            color: Colors.grey[500],
-            fontSize: 13.sp,
-          ),
-        ),
-      ],
-    );
 }

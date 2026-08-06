@@ -12,6 +12,7 @@ abstract class RoutineLocalDataSource {
   Future<int> saveRoutineDetail(RoutineExerciseModel workout);
   Future<int> saveWorkoutSet(RoutineSetModel set);
   Future<void> saveUserWorkoutData(WorkoutSessionEntity session);
+  Future<void> updateRoutine(RoutineModel routine);
 }
 
 class RoutineLocalDataSourceImpl implements RoutineLocalDataSource {
@@ -124,6 +125,74 @@ class RoutineLocalDataSourceImpl implements RoutineLocalDataSource {
               'timestamp': DateTime.now().toIso8601String(),
             }
           );
+        }
+      }
+    });
+  }
+
+  @override
+  Future<void> updateRoutine(RoutineModel routine) async {
+    final db = await dbHelper.database;
+
+    await db.transaction((txn) async {
+      // 1. Update header in place (keeps routineId stable)
+      await txn.update(
+        "tb_routine_header",
+        routine.toMap(),
+        where: "rh_id = ?",
+        whereArgs: [routine.routineId],
+      );
+
+      // 2. Find existing detail rows so we can delete their child sets first
+      final existingDetails = await txn.query(
+        "tb_routine_detail",
+        columns: ["rd_id"],
+        where: "rd_rh_id = ?",
+        whereArgs: [routine.routineId],
+      );
+      final existingDetailIds = existingDetails.map((r) => r['rd_id'] as int).toList();
+
+      if (existingDetailIds.isNotEmpty) {
+        final placeholders = List.filled(existingDetailIds.length, '?').join(',');
+        await txn.delete(
+          "tb_routine_set",
+          where: "rs_rd_id IN ($placeholders)",
+          whereArgs: existingDetailIds,
+        );
+      }
+
+      // 3. Delete existing detail rows
+      await txn.delete(
+        "tb_routine_detail",
+        where: "rd_rh_id = ?",
+        whereArgs: [routine.routineId],
+      );
+
+      // 4. Re-insert current exercises + sets fresh
+      for (final workout in routine.workoutList ?? []) {
+        final workoutModel = RoutineExerciseModel(
+          exerciseId: workout.exerciseId,
+          routineID: routine.routineId,
+          exerciseRestTime: workout.exerciseRestTime,
+          exerciseNote: workout.exerciseNote,
+          setValueList: workout.setValueList,
+          //restTimerEnabled: workout.restTimerEnabled,
+          exerciseType: workout.exerciseType,
+        );
+
+        final workoutId = await txn.insert("tb_routine_detail", workoutModel.toMap());
+
+        for (final setValues in workout.setValueList) {
+          final setModel = RoutineSetModel(
+            setRoutineDetailId: workoutId,
+            setCount: setValues.setCount,
+            setWeight: setValues.setWeight,
+            setRepsCount: setValues.setRepsCount,
+            setDistance: setValues.setDistance,
+            setDuration: setValues.setDuration,
+          );
+
+          await txn.insert("tb_routine_set", setModel.toMap());
         }
       }
     });

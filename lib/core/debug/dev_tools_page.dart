@@ -179,7 +179,7 @@ class _DevToolsPageState extends State<DevToolsPage> {
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
-                color: Colors.black,
+                color: Theme.of(context).scaffoldBackgroundColor,
                 child: SingleChildScrollView(
                   child: Text(
                     _log,

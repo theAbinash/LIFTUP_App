@@ -10,6 +10,7 @@ class RoutineExerciseEntity {
 
   String? exerciseNote;
   int? exerciseRestTime;
+  bool restTimerEnabled;
 
   final int? exerciseSeqNo;
   final int exerciseType;
@@ -29,6 +30,7 @@ class RoutineExerciseEntity {
     this.workoutId,
     this.exerciseNote,
     this.exerciseRestTime,
+    this.restTimerEnabled = false,
     this.exerciseBodyParts = const [],
     this.exerciseEquipments = const [],
   });

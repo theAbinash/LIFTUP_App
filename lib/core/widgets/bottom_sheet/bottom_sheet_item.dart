@@ -4,10 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class BottomSheetItem extends StatelessWidget {
   final String title;
   final String? subtitle;
-
   final Widget? leading;
   final Widget? trailing;
-
+  final Color? titleColor;
   final VoidCallback onTap;
 
   const BottomSheetItem({
@@ -17,6 +16,7 @@ class BottomSheetItem extends StatelessWidget {
     this.subtitle,
     this.leading,
     this.trailing,
+    this.titleColor,
   });
 
   @override
@@ -27,10 +27,7 @@ class BottomSheetItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(14.r),
         onTap: onTap,
         child: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: 14.h,
-            horizontal: 8.w,
-          ),
+          padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 8.w),
           child: Row(
             children: [
 

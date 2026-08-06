@@ -92,7 +92,9 @@ class DBHelper{
         rd_id INTEGER PRIMARY KEY AUTOINCREMENT,
         rd_rh_id INTEGER REFERENCES tb_routine_header(rh_id),
         rd_exercise_id INTEGER REFERENCES tb_exercise_mtr(exercise_id),
+        rd_exercise_type_id INTEGER DEFAULT 0,
         rd_rest_timer INTEGER,
+        rd_rest_timer_on INTEGER DEFAULT 0,
         rd_notes TEXT,
         timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
       )
@@ -180,6 +182,7 @@ class DBHelper{
         em.exercise_etm_id AS exercise_type_id,
         rd.rd_notes AS exercise_note,
         rd.rd_rest_timer AS exercise_rest_time,
+        rd.rd_rest_timer_on AS exercise_rest_timer_on,
 
         rs.rs_id AS set_id,
         rs.rs_rd_id AS set_routine_detail_id,
@@ -207,10 +210,11 @@ class DBHelper{
       LEFT JOIN tb_person_mtr pm ON pm.person_id = rh.rh_created_person_id
       LEFT JOIN tb_exercise_mtr em ON em.exercise_id = rd.rd_exercise_id
       LEFT JOIN tb_routine_set rs ON rd.rd_id = rs.rs_rd_id
-      LEFT JOIN tb_workout_session ws ON ws.ws_rh_id = rh.rh_id
+      
+      LEFT JOIN tb_workout_session ws ON ws.ws_id = (SELECT MAX(ws2.ws_id) FROM tb_workout_session ws2 
+                                                  WHERE ws2.ws_rh_id = rh.rh_id AND ws2.ws_status = 1)
       LEFT JOIN tb_workout_exercise we ON we.we_ws_id = ws.ws_id AND we.we_exercise_id = em.exercise_id
       LEFT JOIN tb_workout_set wset ON wset.wset_we_id = we.we_id AND wset.wset_rs_id = rs.rs_id
-      GROUP BY rh.rh_id, rd.rd_exercise_id
       ORDER BY rh.rh_id, rd.rd_id, rs.rs_id;
     ''');
 

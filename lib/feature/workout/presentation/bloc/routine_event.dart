@@ -26,3 +26,8 @@ class SaveWorkoutData extends RoutineEvent{
   final WorkoutSessionEntity session;
   SaveWorkoutData(this.session);
 }
+
+class UpdateRoutine extends RoutineEvent {
+  final RoutineModel routine;
+  UpdateRoutine(this.routine);
+}

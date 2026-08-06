@@ -19,7 +19,7 @@ import 'package:liftup/feature/workout/domain/usecases/filter_exercise_usecase.d
 import 'package:liftup/feature/workout/domain/usecases/get_exercise_usecase.dart';
 import 'package:liftup/feature/workout/domain/usecases/get_routine_detail_usecase.dart';
 import 'package:liftup/feature/workout/domain/usecases/get_routine_usecase.dart';
-import 'package:liftup/feature/workout/presentation/bloc/exercise_bloc.dart';
+import 'package:liftup/feature/workout/presentation/bloc/exercise/exercise_bloc.dart';
 import 'package:liftup/feature/workout/presentation/bloc/routine_bloc.dart';
 import 'package:liftup/feature/workout/presentation/bloc/routine_detail_bloc.dart';
 import 'package:http/http.dart' as http;

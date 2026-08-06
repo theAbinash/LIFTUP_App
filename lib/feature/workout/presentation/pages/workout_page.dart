@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:liftup/feature/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
+import 'package:liftup/feature/workout/presentation/bloc/workout_session/workout_session_event.dart';
 import 'package:liftup/feature/workout/presentation/pages/create_routine_page.dart';
 import 'package:liftup/core/session/session_manager.dart';
 import 'package:liftup/core/widgets/app_scaffold.dart';
@@ -62,24 +64,6 @@ class _WorkoutWidget extends State<WorkoutWidget> {
           if(state is RoutineLoading){
             return const Center(child: CircularProgressIndicator(),);
           } else if(state is RoutineLoaded) {
-
-            /* if(state.routineList.isEmpty){
-              return RefreshIndicator( 
-                onRefresh: () async {
-                  context.read<RoutineBloc>().add(RefreshRoutine());
-                },
-                child: ListView(
-                  children: [
-                    const SizedBox(
-                      height: 300,
-                      child: Center(
-                        child: Text("No exercises available"),
-                      ),
-                    )
-                  ],
-                ),
-              );
-            } */
 
             return RefreshIndicator(
               onRefresh: () async {
@@ -378,8 +362,14 @@ class _WorkoutWidget extends State<WorkoutWidget> {
                                         final returnedSession = await Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (_) =>
-                                             WorkoutSessionPage(session: session),
+                                            builder: (_) => BlocProvider(
+                                              create: (_) => WorkoutSessionBloc()
+                                                ..add(const WorkoutStarted()),
+                                              child: WorkoutSessionPage(
+                                                session: session,
+                                              ),
+                                              )
+                                             //WorkoutSessionPage(session: session),
                                           ),
                                         );
 

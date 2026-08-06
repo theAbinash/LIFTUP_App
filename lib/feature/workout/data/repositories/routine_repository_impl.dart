@@ -58,6 +58,7 @@ class RoutineRepositoryImpl implements RoutineRepository {
         exerciseName: row['exercise_name'],
         exerciseNote: row['exercise_note'],
         exerciseRestTime: row['exercise_rest_time'],
+        restTimerEnabled: (row['exercise_rest_timer_on'] ?? 0) == 1,
         exerciseType: row['exercise_type_id'] ?? 0,
         routineID: routineId,
         setValueList: [],
@@ -126,6 +127,7 @@ class RoutineRepositoryImpl implements RoutineRepository {
           exerciseNote: row['exercise_note'],
           exerciseType: row['exercise_type_id'] ?? 0,
           exerciseRestTime: row['exercise_rest_time'],
+          restTimerEnabled: (row['exercise_rest_timer_on'] ?? 0) == 1,
           routineID: routineId,
           setValueList: [],
         );
@@ -178,6 +180,7 @@ class RoutineRepositoryImpl implements RoutineRepository {
           exerciseNote: workout.exerciseNote,
           setValueList: workout.setValueList,
           exerciseType: workout.exerciseType,
+          restTimerEnabled: workout.restTimerEnabled,
         );
 
     final workoutId = await localDataSource.saveRoutineDetail(workoutModel);
@@ -207,6 +210,29 @@ class RoutineRepositoryImpl implements RoutineRepository {
     } catch (e) {
       throw Exception("Failed to save user workout data: $e");
     }
+  }
+
+  @override
+  Future<void> updateRoutine(RoutineEntity routine) async {
+    final routineModel = RoutineModel(
+      routineId: routine.routineId,
+      routineName: routine.routineName,
+      routineCreatedPersonId: routine.routineCreatedPersonId,
+      routineScope: routine.routineScope,
+      routineCreatedDate: routine.routineCreatedDate,
+      workoutList: (routine.workoutList ?? [])
+          .map((w) => RoutineExerciseModel(
+                exerciseId: w.exerciseId,
+                routineID: routine.routineId,
+                exerciseRestTime: w.exerciseRestTime,
+                exerciseNote: w.exerciseNote,
+                setValueList: w.setValueList,
+                exerciseType: w.exerciseType,
+              ))
+          .toList(),
+    );
+
+    await localDataSource.updateRoutine(routineModel);
   }
 
 

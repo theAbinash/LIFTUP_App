@@ -8,7 +8,7 @@ import 'package:liftup/core/utils/constants.dart';
 import 'package:liftup/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:liftup/feature/home/presentation/pages/home_layout_page.dart';
 import 'package:liftup/feature/auth/presentation/pages/landing_page.dart';
-import 'package:liftup/feature/workout/presentation/bloc/exercise_bloc.dart';
+import 'package:liftup/feature/workout/presentation/bloc/exercise/exercise_bloc.dart';
 import 'package:liftup/feature/workout/presentation/bloc/routine_bloc.dart';
 import 'package:liftup/feature/workout/presentation/bloc/routine_detail_bloc.dart';
 import 'package:path/path.dart' show join;
@@ -48,26 +48,10 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           //supportedLocales: AppLocalizations.supportedLocales,
           //localizationsDelegates: AppLocalizations.localizationsDelegates,
+          themeMode: ThemeMode.system,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeMode.system,
           home: const SplashScreen(),
-          /* theme: ThemeData(
-            appBarTheme: const AppBarTheme(
-              centerTitle: true,
-              foregroundColor: Colors.white,
-              elevation: 0,
-              scrolledUnderElevation: 0,
-              titleTextStyle: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-                color: Colors.white
-              ),
-              backgroundColor: Color.fromARGB(255, 40, 37, 37),
-            ),
-            scaffoldBackgroundColor: Colors.black,
-            primarySwatch: Colors.blue,
-          ), */
         );
       },
     )
@@ -110,23 +94,19 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.fitness_center, color: Colors.white, size: 80),
+            Icon(Icons.fitness_center, color: Theme.of(context).colorScheme.onSurface, size: 80),
             SizedBox(height: 20.h),
             Text(
               "LFTUP",
-              style: TextStyle(
-                fontSize: 24.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+              style: Theme.of(context).textTheme.headlineMedium
             ),
             SizedBox(height: 30.h),
-            const CircularProgressIndicator(color: Colors.white),
+              CircularProgressIndicator(color: Theme.of(context).colorScheme.primary,),
           ],
         ),
       ),

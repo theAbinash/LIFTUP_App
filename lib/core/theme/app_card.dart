@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:liftup/core/theme/app_insets.dart';
 
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
@@ -27,7 +28,7 @@ class AppCard extends StatelessWidget {
     this.border,
     this.boxShadow,
     this.borderRadius,
-    this.padding = const EdgeInsets.all(16),
+    this.padding = AppInsets.screen,
     this.margin = const EdgeInsets.only(bottom: 16),
   });
 

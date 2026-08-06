@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:liftup/core/theme/app_insets.dart';
 import 'package:liftup/core/widgets/app_scaffold.dart';
 import 'package:liftup/feature/workout/domain/entities/workout_session_entity.dart';
 import 'package:liftup/feature/workout/presentation/bloc/routine_bloc.dart';
@@ -100,7 +101,7 @@ class _WorkoutSavePageState extends State<WorkoutSavePage> {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: AppInsets.screen,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

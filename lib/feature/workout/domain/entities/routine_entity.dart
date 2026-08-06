@@ -1,3 +1,4 @@
+import 'package:liftup/core/utils/constants.dart';
 import 'package:liftup/feature/workout/domain/entities/routine_exercise_entity.dart';
 
 class RoutineEntity {
@@ -18,6 +19,14 @@ class RoutineEntity {
     this.routineCreatedDate,
     this.workoutList,
   });
+
+  /* int get totalSets {
+    int total = 0;
+    for (final exercise in workoutList ?? []) {
+      total += exercise.setValueList.length;
+    }
+    return total;
+  } */
 
   int get estimatedDuration {
     int totalSets = 0;

@@ -17,6 +17,7 @@ class RoutineBloc extends Bloc<RoutineEvent, RoutineState> {
     on<SaveRoutine>(_onSaveRoutine);
     on<LoadRoutineDetail>(_onLoadRoutineDetail);
     on<SaveWorkoutData>(_onSaveWorkoutData);
+    on<UpdateRoutine>(_onUpdateRoutine);
   }
 
   void _onLoadRoutine(LoadRoutine event, Emitter<RoutineState> emit) async {
@@ -81,5 +82,18 @@ class RoutineBloc extends Bloc<RoutineEvent, RoutineState> {
       emit(RoutineError("Routine user data save Failed ${e.toString()}"));
     }
   }
+
+  void _onUpdateRoutine(UpdateRoutine event, Emitter<RoutineState> emit) async {
+  emit(RoutineLoading());
+
+  try {
+    await repository.updateRoutine(event.routine);
+
+    _routineList = await repository.getRoutineList();
+    emit(RoutineLoaded(routineList: _routineList));
+  } catch (e) {
+    emit(RoutineError("Routine Update Failed ${e.toString()}"));
+  }
+}
 
 }
