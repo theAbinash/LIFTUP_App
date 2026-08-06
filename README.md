@@ -1,4 +1,4 @@
-# LiftUp App 🏋️‍♂️
+# LiftUp App
 
 **LiftUp** is a mobile fitness application designed to help users track workouts, monitor progress, and stay consistent with their training goals.
 Built using Flutter with a clean architecture approach for scalability and performance.
