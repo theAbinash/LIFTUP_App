@@ -10,14 +10,14 @@ enum ExerciseColumnType {
 
 class ExerciseColumnConfig {
   final ExerciseColumnType type;
-  //final int flex;
-  final double width;
+  final int? flex;
+  final double? width;
 
   const ExerciseColumnConfig({
     required this.type,
-    //required this.flex,
-    required this.width
-  });
+    this.flex,
+    this.width
+  }) : assert(width != null || flex != null, 'Provide width or flex');
 }
 
 class ExerciseTableLayout {
@@ -27,55 +27,55 @@ class ExerciseTableLayout {
     required this.columns,
   });
 
-  static const double _setW = 40;
-  static const double _valueW = 90;
-  static const double _previousW = 90;
-  static const double _iconW = 40;
+  static const double _setW = 32;
+  //static const double _valueW = 90;
+  //static const double _previousW = 90;
+  static const double _iconW = 36;
 
   //ROUTINE MODE
 
   static const routineReps = ExerciseTableLayout( // type 1
     columns: [
       ExerciseColumnConfig(type: ExerciseColumnType.set, width: _setW),
-      ExerciseColumnConfig(type: ExerciseColumnType.reps, width: _valueW),
+      ExerciseColumnConfig(type: ExerciseColumnType.reps, flex: 2),
     ],
   );
 
   static const routineWeightReps = ExerciseTableLayout( // type 2
     columns: [
       ExerciseColumnConfig(type: ExerciseColumnType.set, width: _setW),
-      ExerciseColumnConfig(type: ExerciseColumnType.weight, width: _valueW),
-      ExerciseColumnConfig(type: ExerciseColumnType.reps, width: _valueW),
+      ExerciseColumnConfig(type: ExerciseColumnType.weight, flex: 2),
+      ExerciseColumnConfig(type: ExerciseColumnType.reps, flex: 2),
     ],
   );
 
   static const routineWeightDuration = ExerciseTableLayout( // type 3
     columns: [
       ExerciseColumnConfig(type: ExerciseColumnType.set, width: _setW),
-      ExerciseColumnConfig(type: ExerciseColumnType.weight, width: _valueW),
-      ExerciseColumnConfig(type: ExerciseColumnType.duration, width: _valueW),
+      ExerciseColumnConfig(type: ExerciseColumnType.weight, flex: 2),
+      ExerciseColumnConfig(type: ExerciseColumnType.duration, flex: 2),
     ],
   );
 
   static const routineDuration = ExerciseTableLayout( // type 4
     columns: [
       ExerciseColumnConfig(type: ExerciseColumnType.set, width: _setW),
-      ExerciseColumnConfig(type: ExerciseColumnType.duration, width: _valueW),
+      ExerciseColumnConfig(type: ExerciseColumnType.duration, flex: 2),
     ],
   );
 
   static const routineDistance = ExerciseTableLayout( // type 5
     columns: [
       ExerciseColumnConfig(type: ExerciseColumnType.set, width: _setW),
-      ExerciseColumnConfig(type: ExerciseColumnType.distance, width: _valueW),
+      ExerciseColumnConfig(type: ExerciseColumnType.distance, flex: 2),
     ],
   );
 
   static const routineDistanceWeight = ExerciseTableLayout( // type 6
     columns: [
       ExerciseColumnConfig(type: ExerciseColumnType.set, width: _setW),
-      ExerciseColumnConfig(type: ExerciseColumnType.weight, width: _valueW),
-      ExerciseColumnConfig(type: ExerciseColumnType.distance, width: _valueW),
+      ExerciseColumnConfig(type: ExerciseColumnType.weight, flex: 2),
+      ExerciseColumnConfig(type: ExerciseColumnType.distance, flex: 2),
     ],
   );
 
@@ -84,8 +84,8 @@ class ExerciseTableLayout {
   static const sessionReps = ExerciseTableLayout( // type 1
     columns: [
       ExerciseColumnConfig(type: ExerciseColumnType.set, width: _setW),
-      ExerciseColumnConfig(type: ExerciseColumnType.previous, width: _previousW),
-      ExerciseColumnConfig(type: ExerciseColumnType.reps, width: _valueW),
+      ExerciseColumnConfig(type: ExerciseColumnType.previous, flex: 2),
+      ExerciseColumnConfig(type: ExerciseColumnType.reps, flex: 2),
       ExerciseColumnConfig(type: ExerciseColumnType.completed, width: _iconW),
     ],
   );
@@ -93,9 +93,9 @@ class ExerciseTableLayout {
   static const sessionWeightReps = ExerciseTableLayout( // type 2
     columns: [
       ExerciseColumnConfig(type: ExerciseColumnType.set, width: _setW),
-      ExerciseColumnConfig(type: ExerciseColumnType.previous, width: _previousW),
-      ExerciseColumnConfig(type: ExerciseColumnType.weight, width: _valueW),
-      ExerciseColumnConfig(type: ExerciseColumnType.reps, width: _valueW),
+      ExerciseColumnConfig(type: ExerciseColumnType.previous, flex: 2),
+      ExerciseColumnConfig(type: ExerciseColumnType.weight, flex: 2),
+      ExerciseColumnConfig(type: ExerciseColumnType.reps, flex: 2),
       ExerciseColumnConfig(type: ExerciseColumnType.completed, width: _iconW),
     ],
   );
@@ -103,9 +103,9 @@ class ExerciseTableLayout {
   static const sessionWeightDuration = ExerciseTableLayout( // type 3
     columns: [
       ExerciseColumnConfig(type: ExerciseColumnType.set, width: _setW),
-      ExerciseColumnConfig(type: ExerciseColumnType.previous, width: _previousW),
-      ExerciseColumnConfig(type: ExerciseColumnType.weight, width: _valueW),
-      ExerciseColumnConfig(type: ExerciseColumnType.duration, width: _valueW),
+      ExerciseColumnConfig(type: ExerciseColumnType.previous, flex: 2),
+      ExerciseColumnConfig(type: ExerciseColumnType.weight, flex: 2),
+      ExerciseColumnConfig(type: ExerciseColumnType.duration, flex: 2),
       ExerciseColumnConfig(type: ExerciseColumnType.completed, width: _iconW),
     ],
   );
@@ -113,8 +113,8 @@ class ExerciseTableLayout {
   static const sessionDuration = ExerciseTableLayout( // type 4
     columns: [
       ExerciseColumnConfig(type: ExerciseColumnType.set, width: _setW),
-      ExerciseColumnConfig(type: ExerciseColumnType.previous, width: _previousW),
-      ExerciseColumnConfig(type: ExerciseColumnType.duration, width: _valueW),
+      ExerciseColumnConfig(type: ExerciseColumnType.previous, flex: 2),
+      ExerciseColumnConfig(type: ExerciseColumnType.duration, flex: 2),
       ExerciseColumnConfig(type: ExerciseColumnType.completed, width: _iconW),
     ],
   );
@@ -122,8 +122,8 @@ class ExerciseTableLayout {
   static const sessionDistance = ExerciseTableLayout( // type 5
     columns: [
       ExerciseColumnConfig(type: ExerciseColumnType.set, width: _setW),
-      ExerciseColumnConfig(type: ExerciseColumnType.previous, width: _previousW),
-      ExerciseColumnConfig(type: ExerciseColumnType.distance, width: _valueW),
+      ExerciseColumnConfig(type: ExerciseColumnType.previous, flex: 2),
+      ExerciseColumnConfig(type: ExerciseColumnType.distance, flex: 2 ),
       ExerciseColumnConfig(type: ExerciseColumnType.completed, width: _iconW),
     ],
   );
@@ -131,9 +131,9 @@ class ExerciseTableLayout {
   static const sessionDistanceWeight = ExerciseTableLayout( // type 6
     columns: [
       ExerciseColumnConfig(type: ExerciseColumnType.set, width: _setW),
-      ExerciseColumnConfig(type: ExerciseColumnType.previous, width: _previousW),
-      ExerciseColumnConfig(type: ExerciseColumnType.weight, width: _valueW),
-      ExerciseColumnConfig(type: ExerciseColumnType.distance, width: _valueW),
+      ExerciseColumnConfig(type: ExerciseColumnType.previous, flex: 2),
+      ExerciseColumnConfig(type: ExerciseColumnType.weight, flex: 2),
+      ExerciseColumnConfig(type: ExerciseColumnType.distance, flex: 2),
       ExerciseColumnConfig(type: ExerciseColumnType.completed, width: _iconW),
     ],
   );
@@ -141,8 +141,8 @@ class ExerciseTableLayout {
   static const editableStrength = ExerciseTableLayout(
     columns: [
       ExerciseColumnConfig(type: ExerciseColumnType.set, width: _setW),
-      ExerciseColumnConfig(type: ExerciseColumnType.weight, width: _valueW),
-      ExerciseColumnConfig(type: ExerciseColumnType.reps, width: _valueW),
+      ExerciseColumnConfig(type: ExerciseColumnType.weight, flex: 2),
+      ExerciseColumnConfig(type: ExerciseColumnType.reps, flex: 2),
     ],
   );
 

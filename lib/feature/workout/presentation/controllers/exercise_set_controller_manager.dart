@@ -6,7 +6,7 @@ class ExerciseSetControllerManager {
   final Map<int, ExerciseSetController> _controllers = {};
 
   ExerciseSetController controllerFor(RoutineSetEntity set) {
-    final key = set.setRoutineDetailId ?? set.hashCode;
+    final key = set.setId ?? identityHashCode(set);
 
     return _controllers.putIfAbsent(
       key,

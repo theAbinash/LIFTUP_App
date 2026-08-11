@@ -70,6 +70,7 @@ class WorkoutSetRow extends StatelessWidget {
               focusNode: controller.weightFocusNode,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
               onChanged: onWeightChanged,
+              showBorder: false,
             );
           case ExerciseColumnType.reps:
             return AppInputField(
@@ -77,6 +78,7 @@ class WorkoutSetRow extends StatelessWidget {
               focusNode: controller.repsFocusNode,
               keyboardType: TextInputType.number,
               onChanged: onRepsChanged,
+              showBorder: false,
             );
           case ExerciseColumnType.distance:
             return AppInputField(
@@ -84,6 +86,7 @@ class WorkoutSetRow extends StatelessWidget {
               focusNode: controller.distanceFocusNode,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
               onChanged: onDistanceChanged,
+              showBorder: false,
             );
           case ExerciseColumnType.duration:
             return AppInputField(
@@ -91,6 +94,7 @@ class WorkoutSetRow extends StatelessWidget {
               focusNode: controller.durationFocusNode,
               keyboardType: TextInputType.number,
               onChanged: onDurationChanged,
+              showBorder: false,
             );
           case ExerciseColumnType.completed:
             return AppCheckButton(value: isCompleted, onChanged: onCompleted);

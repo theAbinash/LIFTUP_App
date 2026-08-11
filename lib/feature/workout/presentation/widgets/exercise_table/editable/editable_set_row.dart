@@ -52,12 +52,14 @@ class EditableSetRow extends StatelessWidget {
               controller: weightController,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
               onChanged: onWeightChanged,
+              showBorder: false,
             );
           case ExerciseColumnType.reps:
             return AppInputField(
               controller: repsController,
               keyboardType: TextInputType.number,
               onChanged: onRepsChanged,
+              showBorder: false,
             );
           default:
             return const SizedBox.shrink();

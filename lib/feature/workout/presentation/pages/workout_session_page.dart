@@ -2,12 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:liftup/core/widgets/app_confirm_dialog.dart';
 import 'package:liftup/core/widgets/app_scaffold.dart';
+import 'package:liftup/feature/home/presentation/pages/home_layout_page.dart';
+import 'package:liftup/feature/workout/domain/entities/exercise_entity.dart';
 import 'package:liftup/feature/workout/domain/entities/routine_exercise_entity.dart';
 import 'package:liftup/feature/workout/domain/entities/routine_set_entity.dart';
 import 'package:liftup/feature/workout/domain/entities/workout_session_entity.dart';
 
 import 'package:liftup/feature/workout/presentation/controllers/exercise_set_controller_manager.dart';
+import 'package:liftup/feature/workout/presentation/pages/exercise_page.dart';
+import 'package:liftup/feature/workout/presentation/pages/routine_page.dart';
 import 'package:liftup/feature/workout/presentation/pages/workout_page.dart';
 import 'package:liftup/feature/workout/presentation/pages/workout_save_page.dart';
 import 'package:liftup/feature/workout/presentation/widgets/appbar/workout_app_bar.dart';
@@ -186,10 +191,6 @@ void _finishWorkout() {
     );
   }
 
-  //------------------------------------------------------------
-  // Timer
-  //------------------------------------------------------------
-
   void _startTimer() {
     _timer = Timer.periodic(
       const Duration(seconds: 1),
@@ -229,10 +230,6 @@ void _finishWorkout() {
     });
   }
 
-  //------------------------------------------------------------
-  // Pause Workout
-  //------------------------------------------------------------
-
   void _pauseAndExit() {
     _pauseTimer();
 
@@ -248,10 +245,6 @@ void _finishWorkout() {
       (route) => false,
     );
   }
-
-  //------------------------------------------------------------
-  // Helpers
-  //------------------------------------------------------------
 
   String _formatDuration(Duration d) {
     String twoDigits(int n) =>
@@ -312,11 +305,24 @@ void _finishWorkout() {
     return total;
   }
 
-  //------------------------------------------------------------
-  // Build
-  //------------------------------------------------------------
+  Future<void> _discardWorkout() async {
+    final discard = await AppConfirmDialog.show(
+      context,
+      title: "Discard this workout?",
+      message: "Your progress will not be saved.",
+      confirmText: "Discard Workout",
+    );
 
-    @override
+    if (discard && mounted) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeLayoutPage()),
+        (route) => false,
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: WorkoutAppBar(
@@ -327,11 +333,8 @@ void _finishWorkout() {
 
       body: ListView.separated(
         padding: EdgeInsets.all(16.w),
-
         itemCount: session.exerciseList.length + 1,
-
-        separatorBuilder: (_, __) => SizedBox(height: 16.h),
-
+        separatorBuilder: (_, __) => SizedBox(height: 8.h),
         itemBuilder: (context, index) {
 
           /// Workout Summary
@@ -357,9 +360,12 @@ void _finishWorkout() {
             );
           }
 
+          if (index == session.exerciseList.length + 1) {
+            _buildBottomActions();
+          }
+
           /// Exercise Card
           final exercise = session.exerciseList[index - 1];
-
           return ExerciseCard(
             exercise: exercise,
             onExpand: () {
@@ -383,6 +389,82 @@ void _finishWorkout() {
         },
       ),
     );
+  }
+  
+  Widget _buildBottomActions() {
+  return Column(
+    children: [
+      SizedBox(
+        width: double.infinity,
+        child: ElevatedButton.icon(
+          onPressed: _addExercise,
+          icon: const Icon(Icons.add, color: Colors.white),
+          label: const Text("Add Exercise"),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        ),
+      ),
+      SizedBox(height: 12.h),
+      Row(
+        children: [
+          Expanded(
+            child: OutlinedButton(
+              onPressed: () {
+                // TODO: settings — build later
+              },
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              child: const Text("Settings"),
+            ),
+          ),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: OutlinedButton(
+              onPressed: _discardWorkout,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.red,
+                side: const BorderSide(color: Colors.red),
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              child: const Text("Discard Workout"),
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+Future<void> _addExercise() async {
+  final result = await Navigator.push(
+    context,
+    PageRouteBuilder(
+      pageBuilder: (_, __, ___) => const ExercisePage(),
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+    ),
+  );
+
+  if (result != null && result is List<ExerciseEntity>) {
+    setState(() {
+      session.exerciseList.addAll(
+        result.map((ex) => RoutineExerciseEntity(
+              exerciseId: ex.exerciseId,
+              exerciseName: ex.exerciseName,
+              exerciseImageUrl: ex.exerciseImageUrl,
+              exerciseType: ex.exerciseType,
+              setValueList: [RoutineSetEntity(setCount: 1, setWeight: 0, setRepsCount: 0)],
+            )),
+      );
+    });
+  }
   }
 
 }

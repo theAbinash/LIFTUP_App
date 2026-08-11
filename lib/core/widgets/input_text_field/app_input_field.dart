@@ -24,11 +24,12 @@ class AppInputField extends StatefulWidget {
 
   final List<TextInputFormatter>? inputFormatters;
 
-  final double width;
+  final double? width;
   final double height;
 
   final int minLines;
   final int? maxLines;
+  final bool showBorder;
 
   const AppInputField({
     super.key,
@@ -44,13 +45,14 @@ class AppInputField extends StatefulWidget {
     this.autofocus = false,
     this.autoSelectOnFocus = true,
     this.readOnly = false,
-    this.textAlign = TextAlign.center,
+    this.textAlign = TextAlign.left,
     this.keyboardType = const TextInputType.numberWithOptions(decimal: true),
     this.inputFormatters,
-    this.width = 60,
+    this.width,
     this.height = 42,
     this.minLines = 1,
     this.maxLines = 1,
+    this.showBorder = true,
   });
 
   @override
@@ -96,7 +98,7 @@ class _AppInputFieldState extends State<AppInputField> {
     final theme = Theme.of(context);
 
     return SizedBox(
-      width: widget.width.w,
+      width: widget.width?.w,
       height: widget.maxLines == 1 ? widget.height.h : null,
       child: TextField(
         controller: widget.controller,
@@ -113,9 +115,6 @@ class _AppInputFieldState extends State<AppInputField> {
         onEditingComplete: widget.onEditingComplete,
         inputFormatters: widget.inputFormatters,
         decoration: InputDecoration(
-          isDense: true,
-          filled: true,
-          fillColor: theme.cardColor,
           contentPadding: EdgeInsets.symmetric(
             horizontal: 10.w,
             vertical: 8.h,
@@ -123,19 +122,11 @@ class _AppInputFieldState extends State<AppInputField> {
           hintText: widget.hintText,
           prefixText: widget.prefixText,
           suffixText: widget.suffixText,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.r),
-            borderSide: BorderSide(
-              color: theme.colorScheme.primary,
-              width: 1.5,
-            ),
-          ),
+          border: widget.showBorder ? null : InputBorder.none,
+          enabledBorder: widget.showBorder ? null : InputBorder.none,
+          focusedBorder: widget.showBorder
+            ? null
+            : const UnderlineInputBorder(borderSide: BorderSide(color: Colors.blue, width: 1.5)),
         ),
       ),
     );

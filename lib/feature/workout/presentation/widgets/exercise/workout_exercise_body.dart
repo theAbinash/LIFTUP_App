@@ -12,7 +12,7 @@ class WorkoutExerciseBody extends StatelessWidget {
   final RoutineExerciseEntity exercise;
   final ExerciseSetControllerManager controllerManager;
   final ValueChanged<String>? onNotesChanged;
-  final VoidCallback? onRestTimerTap;
+  final VoidCallback onRestTimerTap;
   final VoidCallback? onAddSet;
 
   const WorkoutExerciseBody({
@@ -20,7 +20,7 @@ class WorkoutExerciseBody extends StatelessWidget {
     required this.exercise,
     required this.controllerManager,
     this.onNotesChanged,
-    this.onRestTimerTap,
+    required this.onRestTimerTap,
     this.onAddSet,
   });
 
@@ -33,8 +33,8 @@ class WorkoutExerciseBody extends StatelessWidget {
     );
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         AppInlineNotesField(
           initialValue: exercise.exerciseNote,
           hintText: "Add notes...",
@@ -43,12 +43,14 @@ class WorkoutExerciseBody extends StatelessWidget {
 
         const AppSectionDivider(),
 
-       /*  RestTimerButton(
-          duration: exercise.exerciseRestTime == null
-              ? null
-              : Duration(seconds: exercise.exerciseRestTime!),
-          onTap: onRestTimerTap ?? () {},
-        ), */
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          child: RestTimerButton(
+            enabled: exercise.restTimerEnabled,
+            seconds: exercise.exerciseRestTime,
+            onTap: onRestTimerTap,
+          ),
+        ),
 
         const AppSectionDivider(),
 

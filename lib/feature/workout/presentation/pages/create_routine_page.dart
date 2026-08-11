@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:liftup/core/theme/theme_extensions.dart';
+import 'package:liftup/core/widgets/app_confirm_dialog.dart';
 import 'package:liftup/feature/workout/domain/entities/exercise_entity.dart';
 import 'package:liftup/feature/workout/domain/entities/routine_entity.dart';
 import 'package:liftup/feature/workout/presentation/pages/exercise_page.dart';
@@ -85,27 +86,13 @@ class _CreateRoutinePage extends State<CreateRoutinePage> {
       return;
     }
 
-    final discard = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text("Are you sure you want to discard all changes?"),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text("Cancel"),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, true),
-            child: Text(
-              "Discard Changes",
-              style: TextStyle(color: context.colors.error,),
-            ),
-          ),
-        ],
-      ),
+    final discard = await AppConfirmDialog.show(
+      context,
+      title: "Are you sure you want to discard all changes?",
+      confirmText: "Discard Changes",
     );
 
-    if (discard == true && mounted) {
+    if (discard && mounted) {
       Navigator.pop(context);
     }
   }

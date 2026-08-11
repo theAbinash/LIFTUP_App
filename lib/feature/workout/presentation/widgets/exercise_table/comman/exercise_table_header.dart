@@ -46,14 +46,16 @@ class ExerciseTableHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          for (final col in layout.columns) ...[
+          for (int i = 0; i < layout.columns.length; i++) ...[
             ExerciseColumn(
-              width: col.width,
-              child: col.type == ExerciseColumnType.completed
+              width: layout.columns[i].width,
+              flex: layout.columns[i].flex,
+              alignment: Alignment.centerLeft,
+              child: layout.columns[i].type == ExerciseColumnType.completed
                   ? Icon(Icons.check, size: 18, color: Colors.grey[600])
-                  : Text(_label(col.type), style: style),
+                  : Text(_label(layout.columns[i].type), style: style),
             ),
-            SizedBox(width: 16.w),
+          if (i != layout.columns.length - 1) SizedBox(width: 12.w),
           ],
         ],
       ),

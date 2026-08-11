@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:liftup/core/theme/theme_extensions.dart';
 
 class AddSetButton extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -20,20 +21,19 @@ class AddSetButton extends StatelessWidget {
         right: 16.w,
         bottom: 8.h,
       ),
-      child: SizedBox(
-        width: double.infinity,
-        child: OutlinedButton.icon(
-          onPressed: onPressed,
-          icon: const Icon(Icons.add),
-          label: const Text("Add Set"),
-          style: OutlinedButton.styleFrom(
-            minimumSize: Size.fromHeight(44.h),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.r),
-            ),
+      child: ElevatedButton.icon(
+        onPressed: onPressed,
+        icon: const Icon(Icons.add),
+        label: const Text("Add Set"),
+        style: ElevatedButton.styleFrom(
+          minimumSize: Size.fromHeight(44.h),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.r),
           ),
+          backgroundColor: context.theme.dividerColor,
+          foregroundColor: Colors.black,
         ),
-      ),
+      )
     );
   }
 }

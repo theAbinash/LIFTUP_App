@@ -23,22 +23,17 @@ class ExerciseTableRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          for (final col in layout.columns) ...[
-            ExerciseColumn(width: col.width, child: builder(col.type)),
-            SizedBox(width: 16.w),
+          for (int i = 0; i < layout.columns.length; i++) ...[
+            ExerciseColumn(
+              width: layout.columns[i].width,
+              flex: layout.columns[i].flex,
+              alignment: Alignment.centerLeft,
+              child: builder(layout.columns[i].type),
+            ),
+            if (i != layout.columns.length - 1) SizedBox(width: 12.w),
           ],
         ],
       ),
-      /* child: Row(
-        children: layout.columns.map((col) {
-          //final isSet = col.type == ExerciseColumnType.set;
-          return ExerciseColumn(
-            flex: col.flex,
-            alignment: Alignment.centerLeft,
-            child: builder(col.type),
-          );
-        }).toList(),
-      ), */
     );
   }
 }
