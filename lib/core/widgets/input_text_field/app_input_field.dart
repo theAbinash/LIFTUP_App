@@ -21,6 +21,7 @@ class AppInputField extends StatefulWidget {
 
   final TextAlign textAlign;
   final TextInputType keyboardType;
+  final TextStyle? style;
 
   final List<TextInputFormatter>? inputFormatters;
 
@@ -47,6 +48,7 @@ class AppInputField extends StatefulWidget {
     this.readOnly = false,
     this.textAlign = TextAlign.left,
     this.keyboardType = const TextInputType.numberWithOptions(decimal: true),
+    this.style,
     this.inputFormatters,
     this.width,
     this.height = 42,
@@ -107,6 +109,7 @@ class _AppInputFieldState extends State<AppInputField> {
         autofocus: widget.autofocus,
         readOnly: widget.readOnly,
         textAlign: widget.textAlign,
+        style: widget.style,
         keyboardType: widget.keyboardType,
         minLines: widget.minLines,
         maxLines: widget.maxLines,

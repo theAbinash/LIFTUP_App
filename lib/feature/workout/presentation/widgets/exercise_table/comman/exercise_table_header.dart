@@ -29,6 +29,8 @@ class ExerciseTableHeader extends StatelessWidget {
         return "TIME";
       case ExerciseColumnType.completed:
         return "";
+      case ExerciseColumnType.spacer:
+        return "";
     }
   }
 
@@ -53,7 +55,19 @@ class ExerciseTableHeader extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: layout.columns[i].type == ExerciseColumnType.completed
                   ? Icon(Icons.check, size: 18, color: Colors.grey[600])
-                  : Text(_label(layout.columns[i].type), style: style),
+                  : Padding(
+                      padding: EdgeInsets.only(
+                        left: [
+                          ExerciseColumnType.weight,
+                          ExerciseColumnType.reps,
+                          ExerciseColumnType.distance,
+                          ExerciseColumnType.duration,
+                        ].contains(layout.columns[i].type)
+                            ? 10.w
+                            : 0,
+                      ),
+                      child: Text(_label(layout.columns[i].type), style: style),
+                    ),
             ),
           if (i != layout.columns.length - 1) SizedBox(width: 12.w),
           ],

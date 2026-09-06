@@ -19,7 +19,7 @@ class ExerciseTableRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: isEven ? Colors.transparent : Colors.grey.withOpacity(0.06),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 2.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
