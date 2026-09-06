@@ -45,7 +45,7 @@ class EditableSetRow extends StatelessWidget {
           case ExerciseColumnType.set:
             return Text(
               setNumber.toString(),
-              style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             );
           case ExerciseColumnType.weight:
             return AppInputField(
@@ -53,6 +53,8 @@ class EditableSetRow extends StatelessWidget {
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
               onChanged: onWeightChanged,
               showBorder: false,
+              height: 32,
+              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
             );
           case ExerciseColumnType.reps:
             return AppInputField(
@@ -60,6 +62,8 @@ class EditableSetRow extends StatelessWidget {
               keyboardType: TextInputType.number,
               onChanged: onRepsChanged,
               showBorder: false,
+              height: 32,
+              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
             );
           default:
             return const SizedBox.shrink();
