@@ -21,5 +21,5 @@ class Constants {
   static const int mediaTypePhoto = 1;
   static const int mediaTypeVideo = 2;
 
-  static const int _avgSecondsPerSet = 40;
+  static const int _avgSecondsPerSet = 30;
 }
