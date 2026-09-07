@@ -228,6 +228,7 @@ class RoutineRepositoryImpl implements RoutineRepository {
                 exerciseNote: w.exerciseNote,
                 setValueList: w.setValueList,
                 exerciseType: w.exerciseType,
+                restTimerEnabled: w.restTimerEnabled,
               ))
           .toList(),
     );

@@ -154,6 +154,26 @@ class RoutineLocalDataSourceImpl implements RoutineLocalDataSource {
 
       if (existingDetailIds.isNotEmpty) {
         final placeholders = List.filled(existingDetailIds.length, '?').join(',');
+        
+        // Find existing routine sets to clear foreign key references in workout sets
+        final existingSets = await txn.query(
+          "tb_routine_set",
+          columns: ["rs_id"],
+          where: "rs_rd_id IN ($placeholders)",
+          whereArgs: existingDetailIds,
+        );
+        final existingSetIds = existingSets.map((r) => r['rs_id'] as int).toList();
+
+        if (existingSetIds.isNotEmpty) {
+          final setPlaceholders = List.filled(existingSetIds.length, '?').join(',');
+          await txn.update(
+            "tb_workout_set",
+            {"wset_rs_id": null},
+            where: "wset_rs_id IN ($setPlaceholders)",
+            whereArgs: existingSetIds,
+          );
+        }
+
         await txn.delete(
           "tb_routine_set",
           where: "rs_rd_id IN ($placeholders)",
@@ -176,7 +196,7 @@ class RoutineLocalDataSourceImpl implements RoutineLocalDataSource {
           exerciseRestTime: workout.exerciseRestTime,
           exerciseNote: workout.exerciseNote,
           setValueList: workout.setValueList,
-          //restTimerEnabled: workout.restTimerEnabled,
+          restTimerEnabled: workout.restTimerEnabled,
           exerciseType: workout.exerciseType,
         );
 
